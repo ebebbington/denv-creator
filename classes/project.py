@@ -39,15 +39,17 @@ class Project:
             'Project path: {}'.format(self.root),
             'List of containers to build: {}'.format(self.containers)
         ]
+        # Loop through the info displaying it
         for item in project_info:
             Response.show_info(item)
+        # Check the displayed info is ok with the user
         all_is_ok = Response.ask_for_input('Is this ok? [y/n]: ')
         if all_is_ok == 'n':
             Response.show_error('Some facts were gathered incorrectly')
 
     # Create the base folders and files and not any dockerfiles or configs
     def create_base_files(self):
-        print('Creating the foundation of the directory...')
+        Response.show_info('Creating the foundation of the directory...')
         try:
             os.mkdir(self.root)
             open('{}/README.md'.format(self.root), 'x')
@@ -56,11 +58,12 @@ class Project:
             os.mkdir('{}/src'.format(self.root))
             os.mkdir('{}/.docker'.format(self.root))
         except OSError as err:
-            print('Unable to create files: {}. Please chekc the directory and/or remove files'.format(err))
-            exit()
+            Response.show_error('Unable to create files: {}. Please chekc the directory and/or remove files'.format(err))
     
     # Write data to a file
     def write_to_file(file, content):
         f = open(file, 'w')
         f.write(content)
         f.close()
+
+    
