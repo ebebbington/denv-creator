@@ -16,7 +16,7 @@ This supports the following containers:
 
 ## Requirements
 
-* Python ^2.7
+* Python ^3
 
 ## Install and Run
 
@@ -28,7 +28,7 @@ Clone the repo
  
  Create your environental files!
  
- `python docker_environment_creator.py`
+ `python creator.py`
 
 ## Built With
 
