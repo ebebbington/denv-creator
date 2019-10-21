@@ -1,6 +1,6 @@
 # Docker Environment Creator
 
-Creates all the neccessary files and configurations to build a working docker enironment from scratch. This includes:
+Creates all the neccessary files and configurations to build a working docker enironment from scratch. This will create the configuration for each container you specify in a list **but limited to what is supported**, and includes:
 
 * All docker files
 
@@ -8,25 +8,29 @@ Creates all the neccessary files and configurations to build a working docker en
 
 * ... And many more! 
 
-This supports the following containers:
+## Supported Containers
 
-* Nginx
-
-* Something else
+* Nginx ***(WIP)***
 
 ## Requirements
 
-* Python ^3
+* Python
 
 ## Install and Run
 
-Clone the repo
+*Note: The docker environment directory will be created where this project was cloned. Say you clone this project in `/tmp`, the new directory will be placed in `/tmp/some-dir`* 
+
+**Navigate to Where The Docker Project Will Lie**
+
+`cd /path/to/some/dir`
+
+**Clone the repo**
 
  `git clone https://github.com/ebebbington/docker-environment-creator.git`
  
  `cd docker-environment-creator`
  
- Create your environental files!
+ **Create your environental files!**
  
  `python creator.py`
 
