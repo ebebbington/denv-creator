@@ -28,3 +28,5 @@ Project.add_network_block_to_compose_file()
 Project.init_git_repo()
 
 # TODO :: Remove the files and directories related to docker-environment-creator
+# e.g. import shutil
+#      shutil.rmtree(os.getcwd() + 'docker-environment-creator')
