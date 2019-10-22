@@ -59,8 +59,6 @@ class Project:
     # Create the base folders and files and not any dockerfiles or configs
     def create_base_files(self):
         try:
-            Response.show_log('Creating {}/README.md'.format(self.root))
-            open('{}/README.md'.format(self.root), 'x')
             Response.show_log('Creating {}/LICENSE.txt'.format(self.root))
             open('{}/LICENSE.txt'.format(self.root), 'x')
             Response.show_log('Creating {}/.gitignore'.format(self.root))
