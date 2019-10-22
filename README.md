@@ -1,5 +1,3 @@
-#Ted #Will
-
 # Docker Environment Creator
 
 Creates all the neccessary files and configurations to build a working docker enironment from scratch. This will create the configuration for each container you specify in a list **but limited to what is supported**, and includes:
