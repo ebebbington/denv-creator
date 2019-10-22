@@ -9,61 +9,74 @@ class Project:
 
     # Initialise the project object with all information relating to it
     def __init__(self):
-        # Get project name and check if empty
+        # Set the project directory to be the parent folder
+        self.dir = '../'
+
+    # Gets the input, validates it and checks with the user
+    def get_project_name(self):
         self.name = Response.ask_for_input('Project directory name: ')
-        Validate.val_is_set(self.name)
+        # then validate it
         Validate.is_valid_dir_name(self.name)
-        # Get project directory to reside in and check if set
-        self.dir = Response.ask_for_input("Project path where '{}' will reside: ".format(self.name))
-        Validate.val_is_set(self.dir)
-        # Append a / to project path if needed
-        if self.dir.find('/', len(self.dir) - 1) < 0:
-            self.dir = self.dir + '/'
-        # Set the root directory and check it doesnt exist as well as being valid
+        # then check with the user
+        project_name_is_ok = Response.ask_for_input('Project name: {}. Is this ok? [y/n]: '.format(self.name)).lower()
+        if project_name_is_ok != 'y':
+            Response.show_error('Exiting...')
+
+    # get the input, and check with the user
+    def get_list_of_containers(self):
+        self.containers = Response.ask_for_input("Containers to Build: ").split()
+        # then lower case each item
+        self.containers = [x.lower() for x in self.containers]
+        # check with the user
+        project_containers_are_ok = Response.ask_for_input('Containers: {}. Is this ok? [y/n]: '.format(self.containers)).lower()
+        if project_containers_are_ok != 'y':
+            Response.show_error('Exiting...')
+
+    # Define the project root e.g. ../{project name}
+    def set_project_root(self):
         self.root = self.dir + self.name
         Validate.dir_exists(self.root)
-        Validate.is_valid_dir_name(self.root)
-        # Get the list of containers to build and check nly one web server is defined
-        self.containers = Response.ask_for_input("Containers to Build: ").split()
-        Validate.val_is_set(self.containers)
-        Validate.check_is_array(self.containers)
-        Validate.contains_only_one_web_server(self.containers)
-        # Set the path source code will sit in the containers
-        self.container_project_path = "/var/www/{}".format(self.name)
-        self.container_name_prefix = self.name
 
-    # Check project info with the user
-    def check_with_user(self):
-        project_info = [
-            'Project name: {}'.format(self.name),
-            'Project path: {}'.format(self.root),
-            'List of containers to build: {}'.format(self.containers)
-        ]
-        # Loop through the info displaying it
-        for item in project_info:
-            Response.show_info(item)
-        # Check the displayed info is ok with the user
-        all_is_ok = Response.ask_for_input('Is this ok? [y/n]: ')
-        if all_is_ok == 'n':
-            Response.show_error('Some facts were gathered incorrectly')
+    # Create the directory of the project root
+    def create_project_dir(self):
+        Response.show_log('Creating {}'.format(self.root))
+        os.mkdir(self.root)
 
+    # Add the generic network block to the docker-compose file to allow networking between the containers
+    def add_network_block_to_compose_file(self):
+        # TODO
+        Response.show_error('add_network_block_to_compose_file NOT IMPLEMENTED')
+
+    # Initialise a git repository
+    def init_git_repo(self):
+        # TODO
+        Response.show_error('init_git_repo NOT IMPLEMENTED')
+
+    # Create the containers
+    def create_containers_from_container_list(self):
+        # TODO
+        Response.show_error('create_containers_from_container_list NOT IMPLEMENTED')
+    
     # Create the base folders and files and not any dockerfiles or configs
     def create_base_files(self):
-        Response.show_info('Creating the foundation of the directory...')
         try:
-            os.mkdir(self.root)
+            Response.show_log('Creating {}/README.md'.format(self.root))
             open('{}/README.md'.format(self.root), 'x')
+            Response.show_log('Creating {}/LICENSE.txt'.format(self.root))
+            open('{}/LICENSE.txt'.format(self.root), 'x')
+            Response.show_log('Creating {}/.gitignore'.format(self.root))
             open('{}/.gitignore'.format(self.root), 'x')
+            Response.show_log('Creating {}/docker-compose.yml'.format(self.root))
             open('{}/docker-compose.yml'.format(self.root), 'x')
+            Response.show_log('Creating {}/src'.format(self.root))
             os.mkdir('{}/src'.format(self.root))
+            Response.show_log('Creating {}/.docker'.format(self.root))
             os.mkdir('{}/.docker'.format(self.root))
+            Response.show_log('Creating {}/.docker/config'.format(self.root))
+            os.mkdir('{}/.docker/config'.format(self.root))
+            Response.show_log('Creating {}/.docker/data'.format(self.root))
+            os.mkdir('{}/.docker/data'.format(self.root))
+            Response.show_log('Creating {}/.docker/env'.format(self.root))
+            os.mkdir('{}/.docker/env'.format(self.root))
         except OSError as err:
-            Response.show_error('Unable to create files: {}. Please check the directory and/or remove files'.format(err))
-    
-    # Write data to a file
-    def write_to_file(file, content):
-        f = open(file, 'w')
-        f.write(content)
-        f.close()
-
-    
+            Response.show_error('Unable to create files: {}. Please check the directory and/or remove files. Are you specifying Unix or Windows paths for your respective OS?'.format(err))

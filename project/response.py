@@ -10,5 +10,8 @@ class Response:
         print('\n\033[92m{}\x1b[0m'.format(message))
 
     def show_error(message):
-        print('\n\033[91m{}\x1b[0m'.format(message))
+        print('\n\033[91m{}\x1b[0m\n'.format(message))
         exit()
+    
+    def show_log(message):
+        print(message)
