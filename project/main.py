@@ -32,10 +32,9 @@ class Project:
         if project_containers_are_ok != 'y':
             Response.show_error('Exiting...')
 
-    # Define the project root e.g. ../{project name}
+    # Define the project root to be the projects full directory
     def set_project_root(self):
-        self.root = self.dir + self.name
-        Validate.dir_exists(self.root)
+        self.root = os.getcwd()
 
     # Create the directory of the project root
     def create_project_dir(self):
