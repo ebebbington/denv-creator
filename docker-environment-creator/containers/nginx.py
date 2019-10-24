@@ -1,10 +1,10 @@
 class Nginx:
 
-    def __init__(self, container_name, port):
+    def __init__(self, container_name):
         self.service_name = 'nginx'
-        self.container_name = container_name
+        self.container_name = container_prefix + '_nginx'
         self.dockerfile = self.service_name + '.dockerfile'
-        self.port = port
+        self.port = 3001
 
     def setup_dockerfile_content:
         self.dockerfile_content = [
@@ -18,5 +18,3 @@ class Nginx:
             'ENTRYPOINT ["nginx"]',
             'CMD ["-g","daemon off;"]'
         ]
-
-    def create_dockerfile: 
