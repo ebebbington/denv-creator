@@ -8,6 +8,9 @@ class Project:
 
     ...
 
+    Attributes
+    ----------
+
     Methods
     -------
     set_path()
@@ -19,14 +22,37 @@ class Project:
     get_prefix_for_containers()
         Gets input from the user to save a prefix that would be added to each container name
 
-    write_to_config_file_without_php_fpm()
-        Writes the neccessary content to the config file where the php-fpm support is commented out
+    add_network_block_to_compose_file()
+        Adds the network section to the docker-compose.yml file so all containers are linked
+
+    init_git_repo()
+        Run a command to initialise a git repository in the project root
+
+    create_containers_from_container_list()
+        Logic for implementing each container the user specified
+
+    init_docker_compose_file()
+        Creates the docker-compose.yml file adding "services:" to start off the file before containers are added
+
+    create_base_files()
+        Creates th generic base files and directories such as src, .docker etc
     """
 
     def set_path(self):
+        """
+        Saves the directory the user was in when they ran the main script to be used as the project root
+
+        e.g. The path in the bash prompt
+        """
         self.path = os.getcwd()
 
     def get_list_of_containers(self):
+        """
+        Get a list of containers from the user using the input() method
+
+        Converts the input to lowercase and to an array.
+        # TODO If user checks that containers are not ok, the process is ran again
+        """
         self.containers = Response.ask_for_input("Containers to Build: ").split()
         # then lower case each item
         self.containers = [x.lower() for x in self.containers]
@@ -38,29 +64,50 @@ class Project:
             Response.show_error('Exiting...')
 
     def get_prefix_for_containers(self):
+        """
+        Ask the user for a prefix to add to every container name (One to Many)
+        """
+
         Response.show_error('get_prefix_for_containers NOT IMPLEMENTED')
 
-    # Add the generic network block to the docker-compose file to allow networking between the containers
     def add_network_block_to_compose_file(self):
+        """
+        Add the network block to the docker-compose.yml file to link all containers
+        """
+
         # TODO
         Response.show_error('add_network_block_to_compose_file NOT IMPLEMENTED')
 
-    # Initialise a git repository
     def init_git_repo(self):
+        """
+        Initialises a new git repository
+        """
+
         # TODO
         Response.show_error('init_git_repo NOT IMPLEMENTED')
 
-    # Create the containers
     def create_containers_from_container_list(self):
+        """
+        Logic for creating each container fies based on the containers asked for
+        """
+
         # TODO
         Response.show_error('create_containers_from_container_list NOT IMPLEMENTED')
 
-    def init_docker_compose_file():
+    def init_docker_compose_file(self):
+        """
+        Add the first part of the dockerfile before any containers are added
+        """
+
         # TODO
         Response.show_error('init_docker_compose_file NOT IMPLEMENTED')
     
     # Create the base folders and files and not any dockerfiles or configs
     def create_base_files(self):
+        """
+        Creates all the base files and directories for the project
+        """
+
         try:
             Response.show_log('Creating {}/LICENSE.txt'.format(self.path))
             open('{}/LICENSE.txt'.format(self.root), 'x')
