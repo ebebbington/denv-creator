@@ -6,14 +6,17 @@ from project.response import Response
 # Create a new object of the project
 Project = Project()
 
+# Set the directory of where to put the nw project
+Project.set_path()
+
 # Run the project method to get the project name 
 #Project.get_project_name()
 
 # Run the project method to get the project containers
 Project.get_list_of_containers()
 
-# Set the project root directory
-Project.set_project_root()
+# Prefix the container names with something
+Project.get_prefix_for_containers()
 
 # Creates the base directories and files
 Project.create_base_files()
@@ -29,4 +32,4 @@ Project.init_git_repo()
 
 # TODO :: Remove the files and directories related to docker-environment-creator
 # e.g. import shutil
-#      shutil.rmtree(os.getcwd() + 'docker-environment-creator')
+#      shutil.rmtree(os.getcwd() + '/docker-environment-creator')
