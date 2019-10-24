@@ -98,7 +98,7 @@ class Nginx:
             "    networks:",
             "      - {}-network".format(self.prefix)
         ]
-        file = open('./docker-compose.yml', 'a+')
+        file = open('./docker-compose.yml', 'a')
         for text in docker_compose_content:
             file.write(text + '\n')
 
