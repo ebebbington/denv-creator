@@ -14,25 +14,27 @@ def get_current_file_name():
     print(__file__)
 
 def write_array_to_file():
-    dockerfile_content = [
-        'FROM nginx:latest',
-        '# Update and install required packages',
-        'RUN apt-get update',
-        'RUN apt-get install vim -y',
-        'COPY ./.docker/config/copytube.conf /etc/nginx/conf.d/copytube.conf',
-        'ENTRYPOINT ["nginx"]',
-        'CMD ["-g","daemon off;"]'
+    docker_compose_content = [
+            "  nginx:",
+            "    container_name: {}".format('nginx'),
+            "    build:",
+            "      context: .",
+            "      dockerfile: .docker/{}".format('nginx.dockerfile'),
+            "    volumes:",
+            "      - ./src:/var/www/src",
+            "    working_dir: /var/www/src",
+            "    ports:",
+            "      - '{}:{}'".format(3001, 3001),
+            "    networks:",
+            "      - {}-network".format('test')
     ]
-    file = open('test.txt', 'w')
-    for i in dockerfile_content:
+    file = open('./test.txtttt', 'w')
+    for i in docker_compose_content:
         file.write(i + '\n')
-#write_array_to_file()
+write_array_to_file()
 
 tabs = 'some text:' + '\tsome text part of the above text'
 #print(tabs)
 
 # Get directory of where the user was when they executed the script
 #print(os.getcwd() + '/../')
-
-f = open('test.deleteme', 'w')
-f.remove()
