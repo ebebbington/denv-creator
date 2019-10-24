@@ -33,6 +33,29 @@ def write_array_to_file():
         file.write(i + '\n')
 write_array_to_file()
 
+def val_is_set(val):
+        if len(val) < 1:
+            Response.show_error('You did not specify a value')
+
+def check_is_array(vals):
+        if not isinstance(vals, list):
+            Response.show_error('The given containers is not a list')
+
+def contains_only_one_web_server(container_list):
+    possible_web_servers = [
+        'nginx',
+        'apache'
+    ]
+    count = 0
+    for container in container_list:
+        for possible_web_server in possible_web_servers:
+            # Create the count
+            if possible_web_server == container:
+                count = count + 1
+            # Check if more thn 2 servers are defined
+            if count > 1:
+                Response.show_error('You have defined more than one web server')
+
 tabs = 'some text:' + '\tsome text part of the above text'
 #print(tabs)
 
