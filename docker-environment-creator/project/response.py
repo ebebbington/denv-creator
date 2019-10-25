@@ -6,16 +6,16 @@ class Response:
 
     Methods
     -------
-    ask_for_input()
+    ask_for_input(message)
         Gets input from the console, passing in a param as the message and returns
 
-    show_info()
+    show_info(message)
         Shows information in the console which is coloured green
 
-    show_error()
+    show_error(message)
         Outputs an error message to the console in red
 
-    show_log()
+    show_log(message)
         Outputs general logging messages to the kernal
     """
 
