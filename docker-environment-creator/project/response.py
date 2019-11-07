@@ -1,5 +1,5 @@
 class Response:
-     """
+    """
     A class used to sent responses to the console such as info, or getting input
 
     ...
