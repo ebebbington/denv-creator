@@ -16,7 +16,7 @@ Project.get_prefix_for_containers()
 # Creates the base directories and files
 Project.create_base_files()
 
-# TODO :: Add the start of the dockerfile e.g. services:
+# Add the starting block to the docker-compose.yml file
 Project.init_docker_compose_file()
 
 # TODO :: Create all container files and configurations
