@@ -12,23 +12,20 @@ class Phpfpm:
     container_name : str
         the name to give the containr inside the dockerfile
     port : int
-        port for nginx to run on
+        port for phpfpm to run on
     dockerfile_name : str
-        a formatted string that defines the name of the docker file for nginx
+        a formatted string that defines the name of the docker file for phpfpm
 
     Methods
     -------
     write_to_dockerfile()
-        Writes the neccessary content to the dockerfile for nginx
+        Writes the neccessary content to the dockerfile for phpfpm
 
     write_to_docker_compose_file()
         Appends to the docker compose file with the neccessary nginx content
 
-    write_to_config_file_with_php_fpm()
-        Writes the neccessary content to the config file with php-fpm support
-
-    write_to_config_file_without_php_fpm()
-        Writes the neccessary content to the config file where the php-fpm support is commented out
+    create_php_ini_file()
+        Copies over the php.ini file
     """
 
     def __init__(self, prefix_for_containers):
@@ -112,5 +109,10 @@ class Phpfpm:
             file.write(text + '\n')
 
     def create_php_ini_file:
+        """
+        Copies over the php.ini file into the users project
+
+        """
+
         from shutil import copyfile
         copyfile('data/php.ini', '.docker/config/php.ini')
