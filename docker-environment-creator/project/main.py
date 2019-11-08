@@ -51,7 +51,6 @@ class Project:
         Get a list of containers from the user using the input() method
 
         Converts the input to lowercase and to an array.
-        # TODO If user checks that containers are not ok, the process is ran again
         """
         self.containers = Response.ask_for_input("Containers to Build: ").split()
         # then lower case each item
@@ -60,7 +59,6 @@ class Project:
         Response.show_info('Containers: {}'.format(self.containers))
         project_containers_are_ok = Response.ask_for_input('Is this ok? [y/n]: ').lower()
         if project_containers_are_ok != 'y':
-            # TODO run the project again
             Response.show_error('Exiting...')
 
     def get_prefix_for_containers(self):
@@ -107,6 +105,11 @@ class Project:
         # TODO :: write this text to the docker-compose.yml file. make sure to append it and use the 'self.path' for the directory
         Response.show_error('init_docker_compose_file NOT IMPLEMENTED')
     
+    def clean_up():
+        import shutil
+        shutil.rmtree(os.getcwd() + '/docker-environment-creator')
+        Response.show_info('Cleaned.')
+
     # Create the base folders and files and not any dockerfiles or configs
     def create_base_files(self):
         """
