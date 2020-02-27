@@ -15,31 +15,65 @@ Automates the process of creating a docker environment (using `docker-compose`) 
 
 # Install and Run
 
-*Note: All files related to the docker environment will reside **under** this cloned project - make sure to make this cloned project the name of your project. Say you clone this project in `/tmp/my-docker-project`, the files will be placed underneath such as `/tmp/my-docker-project/docker-compose.yml`*
-
-**Navigate to Where The Docker Project Will Lie**
-
-`cd /path/to/my/development/environments`
-
 **Clone the repo**
 
- `git clone https://github.com/ebebbington/docker-environment-creator.git your-project-name`
+`cd /path/to/my/development/environments`
+`git clone https://github.com/ebebbington/denv-creator.git`
  
- `cd your-project-name`
+ **Create your project!**
  
- **Create your environental files!**
- 
- `python docker-environment-creator/index.py`
- 
- ***Note: The `docker-environment-creator` directory will remove itself once everything is complete leaving only the files created by this python project***
+ `python denv-creator/index.py`
  
 # File Structure
 
-In progress
+* `__pycache__/`
+  * Cached files of our python scripts. This gets generated automatically and they are being ignored
+  
+* `.github/`
+  * Holds github related configurations. Nothing to worry about
+  
+* `containers/`
+  * The list of container classes. This holds a class for each container - which encapsulates the logic for each one
+  
+* `data/`
+  * General files to aid in the container configuration such as the default `php.ini` file
+  
+* `.gitignore`
+  * Contains a list of files or directories for Git to ignore as we don't want those files committed
+  
+* `CONTRIBUTING.md`
+  * Contribution guide
+  
+* `index.py`
+  * Our main entrypoint script, makes the basic calls to the `Project` class to setup the environment
+  
+* `LICENSE.txt`
+  * License file
+  
+* `project.py`
+  * Our project class. This is where the magic happens. It holds 90% of the logic for the project (represents the project)
+  
+* `README.md`
+  * `self`
+  
+* `response.md`
+  * A class to handle speaking to the user. This abstracts the logic to log out data, ask for input or show errors
+
+* `test.py`
+  * Testing file to act as a playground
+  
+* `validate.py`
+  * Validation file to handle all things validat-ey
 
 # Flow of Execution
 
-In progress
+1. Use calls the main script
+
+2. The main scripts makes all the calls to the `Project` methods
+
+3. The project class is what does the magic. It collects data from the user
+
+4. Eventually when all data is collected, the project class uses the container classes to aid in creating/writing files and directories
 
 # Built With
 
