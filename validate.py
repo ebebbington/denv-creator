@@ -1,6 +1,6 @@
 import os
 import re
-from project.response import Response
+from response import Response
 
 class Validate:
     """

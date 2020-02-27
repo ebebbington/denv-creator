@@ -1,6 +1,6 @@
 import os
-from project.validate import Validate
-from project.response import Response
+from validate import Validate
+from response import Response
 
 class Project:
     """

@@ -1,5 +1,5 @@
 # Import the project class
-from project.main import Project
+from project import Project
 
 # Create a new object of the project
 Project = Project()
