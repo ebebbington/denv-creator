@@ -6,7 +6,6 @@ Project = Project()
 
 # Set the directory of where to put the new project
 Project.set_path()
-Project.create_base_files()
 attrs = vars(Project)
 print(attrs)
 exit()
@@ -36,7 +35,7 @@ Project.add_network_block_to_compose_file()
 Project.init_git_repo()
 
 # Remove this directory
-Project.clean_up()
+#Project.clean_up()
 
 # NOTES
 

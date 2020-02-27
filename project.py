@@ -44,9 +44,9 @@ class Project:
 
         e.g. The path in the bash prompt
         """
-        project_name = Response.ask_for_input("Project name (lowercase, hyphen-seperated): ")
-        self.project_name = project_name
-        self.path = os.getcwd() + '/' + project_name
+        name = Response.ask_for_input("Project name (lowercase, hyphen-seperated): ")
+        self.name = name
+        self.path = os.getcwd() + '/' + name
 
     def get_list_of_containers(self):
         """
@@ -67,7 +67,7 @@ class Project:
         """
         Ask the user for a prefix to add to every container name (One to Many)
         """
-        # TODO :: use the Response class to get input from the user, then assign that to "Project.container_prefix"
+        # TODO :: Issue #13 - use the Response class to get input from the user, then assign that to "Project.container_prefix"
         Response.show_error('get_prefix_for_containers NOT IMPLEMENTED')
 
     def add_network_block_to_compose_file(self):
@@ -79,7 +79,7 @@ class Project:
             '  {}-network:'.format(self.container_prefix),
             '    driver: bridge'
         ]
-        # TODO :: write this text to the docker-compose.yml file. make sure to append it and use the 'self.path' for the directory
+        # TODO :: Issue #9 - write this text to the docker-compose.yml file. make sure to append it and use the 'self.path' for the directory
         Response.show_error('add_network_block_to_compose_file NOT IMPLEMENTED')
 
     def init_git_repo(self):
@@ -87,7 +87,7 @@ class Project:
         Initialises a new git repository
         """
 
-        # TODO :: run the following command on the terminal for the user: git init
+        # TODO :: Issue #10 - run the following command on the terminal for the user: git init
         # see for help: https://stackoverflow.com/questions/13744473/command-line-execution-in-different-folder
         Response.show_error('init_git_repo NOT IMPLEMENTED')
 
@@ -96,15 +96,18 @@ class Project:
         Logic for creating each container fies based on the containers asked for
         """
 
-        # TODO :: Using a 'switch' statement, make a case for every container we have and build those if it matches
+        # TODO :: (Edward) Using a 'switch' statement, make a case for every container we have and build those if it matches
         Response.show_error('create_containers_from_container_list NOT IMPLEMENTED')
 
     def init_docker_compose_file(self):
         """
         Add the first part of the dockerfile before any containers are added
         """
-        text = 'services:'
-        # TODO :: write this text to the docker-compose.yml file. make sure to append it and use the 'self.path' for the directory
+        text = [
+            'version: "3"',
+            '  services:'
+        ]
+        # TODO :: Issue #15 write this text to the docker-compose.yml file. make sure to append it and use the 'self.path' for the directory
         Response.show_error('init_docker_compose_file NOT IMPLEMENTED')
     
     def clean_up():
