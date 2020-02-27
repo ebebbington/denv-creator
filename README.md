@@ -32,6 +32,14 @@ Automates the process of creating a docker environment (using `docker-compose`) 
  `python docker-environment-creator/index.py`
  
  ***Note: The `docker-environment-creator` directory will remove itself once everything is complete leaving only the files created by this python project***
+ 
+# File Structure
+
+In progress
+
+# Flow of Execution
+
+In progress
 
 # Built With
 
