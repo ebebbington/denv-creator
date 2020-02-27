@@ -1,22 +1,19 @@
-# *D*ocker *Env*ironment *Creator* (denv-creator)
+# Docker Environment Creator (denv-creator)
 
-Creates all the neccessary files and configurations to build a working docker enironment from scratch, from the command line. This will create the configuration for each container you specify in a list **but limited to what is supported**, and includes:
+***This project is under construction and does not currently function properly. Feel free to use it and test it.***
 
-* All docker files
+Automates the process of creating a docker environment (using `docker-compose`) with all the containers you want, also with all of their respective configuration files. This can be done by answering a few questions on the command line.
 
-* Container configurations
-
-* ... And many more! 
-
-## Supported Containers
+# Supported Containers
 
 * Nginx ***(WIP)***
+* PHP-FPM ***(WIP)***
 
-## Requirements
+# Requirements
 
 * Python
 
-## Install and Run
+# Install and Run
 
 *Note: All files related to the docker environment will reside **under** this cloned project - make sure to make this cloned project the name of your project. Say you clone this project in `/tmp/my-docker-project`, the files will be placed underneath such as `/tmp/my-docker-project/docker-compose.yml`*
 
@@ -36,15 +33,19 @@ Creates all the neccessary files and configurations to build a working docker en
  
  ***Note: The `docker-environment-creator` directory will remove itself once everything is complete leaving only the files created by this python project***
 
-## Built With
+# Built With
 
 * [Python](https://docs.python.org) - Language used
 
-## Authors
+# Authors
 
 * Edward Bebbinton - **Owner/Developer** - [ebebbington](https://github.com/ebebbington)
 * Will Bebbington - **Developer** - [willjb95](https://github.com/willjb95)
 
-## License
+# Contributing
+
+See [here](#CONTRIBUTING.md)
+
+# License
 
 This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details
