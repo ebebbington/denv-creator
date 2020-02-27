@@ -23,7 +23,7 @@ assignees: ''
 (Describe what the end result will be)
 
 **Checklist**
-[] List of items that feature must fulfil
+- [ ] List of items that feature must fulfil
 
 **Resources**
 (Any docs, links, videos etc that can support this feature)
