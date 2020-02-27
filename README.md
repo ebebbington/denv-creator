@@ -1,4 +1,4 @@
-# Docker Environment Creator
+# *D*ocker *Env*ironment *Creator* (denv-creator)
 
 Creates all the neccessary files and configurations to build a working docker enironment from scratch, from the command line. This will create the configuration for each container you specify in a list **but limited to what is supported**, and includes:
 
