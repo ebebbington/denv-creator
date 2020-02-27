@@ -1,6 +1,6 @@
 import os
-from project.validate import Validate
-from project.response import Response
+from validate import Validate
+from response import Response
 
 class Project:
     """
@@ -44,7 +44,9 @@ class Project:
 
         e.g. The path in the bash prompt
         """
-        self.path = os.getcwd()
+        project_name = Response.ask_for_input("Project name (lowercase, hyphen-seperated): ")
+        self.project_name = project_name
+        self.path = os.getcwd() + '/' + project_name
 
     def get_list_of_containers(self):
         """
@@ -117,10 +119,12 @@ class Project:
         """
 
         try:
+            Response.show_log('Creating {}'.format(self.path))
+            os.mkdir('{}'.format(self.path))
             Response.show_log('Creating {}/LICENSE.txt'.format(self.path))
-            open('{}/LICENSE.txt'.format(self.root), 'x')
+            open('{}/LICENSE.txt'.format(self.path), 'x')
             Response.show_log('Creating {}/.gitignore'.format(self.path))
-            open('{}/.gitignore'.format(self.root), 'x')
+            open('{}/.gitignore'.format(self.path), 'x')
             Response.show_log('Creating {}/docker-compose.yml'.format(self.path))
             open('{}/docker-compose.yml'.format(self.path), 'x')
             Response.show_log('Creating {}/src'.format(self.path))
@@ -133,5 +137,7 @@ class Project:
             os.mkdir('{}/.docker/data'.format(self.path))
             Response.show_log('Creating {}/.docker/env'.format(self.path))
             os.mkdir('{}/.docker/env'.format(self.path))
+            Response.show_log('Creating {}/README.md'.format(self.path))
+            open('{}/README.md'.format(self.path), 'x')
         except OSError as err:
             Response.show_error('Unable to create files: {}. Please check the directory and/or remove files. Are you specifying Unix or Windows paths for your respective OS?'.format(err))

@@ -1,11 +1,15 @@
 # Import the project class
-from project.main import Project
+from project import Project
 
 # Create a new object of the project
 Project = Project()
 
 # Set the directory of where to put the new project
 Project.set_path()
+Project.create_base_files()
+attrs = vars(Project)
+print(attrs)
+exit()
 
 # Run the project method to get the project containers
 Project.get_list_of_containers()
