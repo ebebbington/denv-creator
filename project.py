@@ -1,6 +1,7 @@
 import os
 from validate import Validate
 from response import Response
+from containers.nginx import Nginx
 
 class Project:
     """
@@ -97,6 +98,20 @@ class Project:
         """
 
         # TODO :: (Edward) Using a 'switch' statement, make a case for every container we have and build those if it matches
+        for container in self.containers:
+            # Configure nginx
+            if container == 'nginx':
+                prefix = self.container_prefix
+                nginx = Nginx(prefix)
+                nginx.write_to_dockerfile(self.path)
+                nginx.write_to_docker_compose_file(self.path)
+                # write the config file based on if phpfpm is present
+                if any('phpfpm' in s for s in self.containers):
+                    nginx.write_to_config_file_with_php_fpm(self.path)
+                else:
+                    nginx.write_to_config_file_without_php_fpm(self.path)
+
+
         Response.show_error('create_containers_from_container_list NOT IMPLEMENTED')
 
     def init_docker_compose_file(self):

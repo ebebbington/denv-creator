@@ -57,7 +57,7 @@ class Nginx:
         self.port = 3001
         self.dockerfile_name = 'nginx.dockerfile'
 
-    def write_to_dockerfile(self):
+    def write_to_dockerfile(self, root_path):
         """
         Writes the neccessary content to the dockerfile for nginx
 
@@ -74,11 +74,11 @@ class Nginx:
             'ENTRYPOINT ["nginx"]',
             'CMD ["-g","daemon off;"]'
         ]
-        file = open('./.docker/{}'.format(self.dockerfile_name), 'w')
+        file = open('{}/.docker/{}'.format(root_path, self.dockerfile_name), 'w')
         for text in dockerfile_content:
             file.write(text + '\n')
 
-    def write_to_docker_compose_file(self):
+    def write_to_docker_compose_file(self, root_path):
         """
         Writes the neccessary content to the docker-compose.yml file for nginx
 
@@ -98,11 +98,11 @@ class Nginx:
             "    networks:",
             "      - {}-network".format(self.prefix)
         ]
-        file = open('./docker-compose.yml', 'a')
+        file = open('{}/docker-compose.yml'.format(root_path), 'a')
         for text in docker_compose_content:
             file.write(text + '\n')
 
-    def write_to_config_file_with_php_fpm(self):
+    def write_to_config_file_with_php_fpm(self, root_path):
         """
         Writes the neccessary content to the config file for nginx with php-fpm support
 
@@ -130,17 +130,17 @@ class Nginx:
 	        '  }',
             '}'
         ]
-        file = open('./.docker/config/nginx.conf', 'w')
+        file = open('{}/.docker/config/nginx.conf'.format(root_path), 'w')
         for text in config_content:
             file.write(text + '\n')
 
-    def write_to_config_file_without_php_fpm(self):
+    def write_to_config_file_without_php_fpm(self, root_path):
         """
         Writes the neccessary content to the config file for nginx with php-fpm support commented out
     
         """
 
-        self.config_content = [
+        config_content = [
             'server {',
 	        '  listen {};'.format(self.port),
             '',
@@ -163,6 +163,6 @@ class Nginx:
 	        '  }',
             '}'
         ]
-        file = open('./.docker/config/nginx.conf', 'w')
+        file = open('{}/.docker/config/nginx.conf'.format(root_path), 'w')
         for text in config_content:
             file.write(text + '\n')

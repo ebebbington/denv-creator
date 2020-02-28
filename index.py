@@ -6,9 +6,6 @@ Project = Project()
 
 # Set the directory of where to put the new project
 Project.set_path()
-attrs = vars(Project)
-print(attrs)
-exit()
 
 # Run the project method to get the project containers
 Project.get_list_of_containers()
@@ -17,7 +14,7 @@ Project.get_list_of_containers()
 # pprint(vars(Project))
 
 # Prefix the container names with something
-Project.get_prefix_for_containers()
+#Project.get_prefix_for_containers()
 
 # Creates the base directories and files
 Project.create_base_files()
