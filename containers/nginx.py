@@ -1,3 +1,5 @@
+import config
+
 """
 ...
 Usage
@@ -39,7 +41,7 @@ class Nginx:
         Writes the neccessary content to the config file where the php-fpm support is commented out
     """
 
-    def __init__(self, prefix_for_containers):
+    def __init__(self, prefix_for_containers: str):
         """
         Parameters
         ----------
@@ -52,18 +54,19 @@ class Nginx:
         dockerfile_name : str
             a formatted string that defines the name of the docker file for nginx
         """
-        self.prefix = prefix_for_containers
-        self.container_name = prefix_for_containers + '_nginx'
-        self.port = 3001
-        self.dockerfile_name = 'nginx.dockerfile'
+        self.prefix: str = prefix_for_containers
+        self.container_name: str = prefix_for_containers + '_nginx'
+        self.port: int = config.ports['nginx']
+        self.dockerfile_name: str = 'nginx.dockerfile'
+        print(self.port)
 
-    def write_to_dockerfile(self, root_path):
+    def write_to_dockerfile(self, root_path: str):
         """
         Writes the neccessary content to the dockerfile for nginx
 
         """
 
-        dockerfile_content = [
+        dockerfile_content: List[str] = [
             'FROM nginx:latest',
             '# Update and install required packages',
             'RUN apt-get update',
@@ -78,13 +81,13 @@ class Nginx:
         for text in dockerfile_content:
             file.write(text + '\n')
 
-    def write_to_docker_compose_file(self, root_path):
+    def write_to_docker_compose_file(self, root_path: str):
         """
         Writes the neccessary content to the docker-compose.yml file for nginx
 
         """
 
-        docker_compose_content = [
+        docker_compose_content: List[str] = [
             "  nginx:",
             "    container_name: {}".format(self.container_name),
             "    build:",
@@ -102,13 +105,13 @@ class Nginx:
         for text in docker_compose_content:
             file.write(text + '\n')
 
-    def write_to_config_file_with_php_fpm(self, root_path):
+    def write_to_config_file_with_php_fpm(self, root_path: str):
         """
         Writes the neccessary content to the config file for nginx with php-fpm support
 
         """
 
-        config_content = [
+        config_content: List[str] = [
             'server {',
 	        '  listen {};'.format(self.port),
             '',
@@ -134,13 +137,13 @@ class Nginx:
         for text in config_content:
             file.write(text + '\n')
 
-    def write_to_config_file_without_php_fpm(self, root_path):
+    def write_to_config_file_without_php_fpm(self, root_path: str):
         """
         Writes the neccessary content to the config file for nginx with php-fpm support commented out
     
         """
 
-        config_content = [
+        config_content: List[str] = [
             'server {',
 	        '  listen {};'.format(self.port),
             '',

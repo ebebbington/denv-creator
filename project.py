@@ -45,9 +45,9 @@ class Project:
 
         e.g. The path in the bash prompt
         """
-        name = Response.ask_for_input("Project name (lowercase, hyphen-seperated): ")
-        self.name = name
-        self.path = os.getcwd() + '/' + name
+        name: str = Response.ask_for_input("Project name (lowercase, hyphen-seperated): ")
+        self.name: str = name
+        self.path: str = os.getcwd() + '/' + name
 
     def get_list_of_containers(self):
         """
@@ -55,12 +55,12 @@ class Project:
 
         Converts the input to lowercase and to an array.
         """
-        self.containers = Response.ask_for_input("Containers to Build: ").split()
+        self.containers: List[str] = Response.ask_for_input("Containers to Build: ").split()
         # then lower case each item
         self.containers = [x.lower() for x in self.containers]
         # check with the user
         Response.show_info('Containers: {}'.format(self.containers))
-        project_containers_are_ok = Response.ask_for_input('Is this ok? [y/n]: ').lower()
+        project_containers_are_ok: bool = Response.ask_for_input('Is this ok? [y/n]: ').lower()
         if project_containers_are_ok != 'y':
             Response.show_error('Exiting...')
 
@@ -75,7 +75,7 @@ class Project:
         """
         Add the network block to the docker-compose.yml file to link all containers
         """
-        text_block = [
+        text_block: List[str] = [
             'network:',
             '  {}-network:'.format(self.container_prefix),
             '    driver: bridge'
@@ -118,7 +118,7 @@ class Project:
         """
         Add the first part of the dockerfile before any containers are added
         """
-        text = [
+        text: List[str] = [
             'version: "3"',
             '  services:'
         ]

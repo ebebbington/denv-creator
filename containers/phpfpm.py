@@ -1,3 +1,5 @@
+import config
+
 class Phpfpm:
 
     """
@@ -28,7 +30,7 @@ class Phpfpm:
         Copies over the php.ini file
     """
 
-    def __init__(self, prefix_for_containers):
+    def __init__(self, prefix_for_containers: str):
         """
         Parameters
         ----------
@@ -41,18 +43,18 @@ class Phpfpm:
         dockerfile_name : str
             a formatted string that defines the name of the docker file for phpfpm
         """
-        self.prefix = prefix_for_containers
-        self.container_name = prefix_for_containers + '_phpfpm'
-        self.port = 3002
-        self.dockerfile_name = 'phpfpm.dockerfile'
+        self.prefix: str = prefix_for_containers
+        self.container_name: str = prefix_for_containers + '_phpfpm'
+        self.port: str = config.ports['phpfpm']
+        self.dockerfile_name: str = 'phpfpm.dockerfile'
 
-    def write_to_dockerfile(self):
+    def write_to_dockerfile(self, root_path):
         """
         Writes the neccessary content to the dockerfile for nginx
 
         """
 
-        dockerfile_content = [
+        dockerfile_content: List[str] = [
             'FROM php:7.3-fpm',
             '',
             '# Update and install required packages and dependencies',
@@ -76,17 +78,17 @@ class Phpfpm:
             'RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer'
         ]
 
-        file = open('./.docker/{}'.format(self.dockerfile_name), 'w')
+        file = open('{}/./.docker/{}'.format(root_path, self.dockerfile_name), 'w')
         for text in dockerfile_content:
             file.write(text + '\n')
 
-    def write_to_docker_compose_file(self):
+    def write_to_docker_compose_file(self, root_path):
         """
         Writes the neccessary content to the docker-compose.yml file for nginx
 
         """
 
-        docker_compose_content = [
+        docker_compose_content: List[str] = [
             'phpfpm:',
             '  container_name: {}_phpfpm'.format(self.prefix),
             '  build:',
@@ -104,15 +106,15 @@ class Phpfpm:
             '    - {}-network'.format(self.prefix)
         ]
         
-        file = open('./docker-compose.yml', 'a')
+        file = open('{}/./docker-compose.yml'.format(root_path), 'a')
         for text in docker_compose_content:
             file.write(text + '\n')
 
-    def create_php_ini_file:
+    def create_php_ini_file(self, root_path):
         """
         Copies over the php.ini file into the users project
 
         """
 
         from shutil import copyfile
-        copyfile('data/php.ini', '.docker/config/php.ini')
+        copyfile('../data/php.ini', '{}/.docker/config/php.ini'.format(root_path))
