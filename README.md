@@ -6,8 +6,8 @@ Automates the process of creating a docker environment (using `docker-compose`) 
 
 # Supported Containers
 
-* Nginx ***(WIP)***
-* PHP-FPM ***(WIP)***
+* Nginx
+* PHP-FPM
 
 # Requirements
 
