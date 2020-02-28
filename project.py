@@ -2,6 +2,7 @@ import os
 from validate import Validate
 from response import Response
 from containers.nginx import Nginx
+from containers.phpfpm import Phpfpm
 
 class Project:
     """
@@ -110,6 +111,12 @@ class Project:
                     nginx.write_to_config_file_with_php_fpm(self.path)
                 else:
                     nginx.write_to_config_file_without_php_fpm(self.path)
+            if container == 'phpfpm':
+                prefix = self.container_prefix
+                phpfpm = Phpfpm(prefix)
+                phpfpm.write_to_dockerfile(self.path)
+                phpfpm.write_to_docker_compose_file(self.path)
+                phpfpm.create_php_ini_file(self.path)
 
 
         Response.show_error('create_containers_from_container_list NOT IMPLEMENTED')

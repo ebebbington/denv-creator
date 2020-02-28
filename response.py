@@ -19,7 +19,7 @@ class Response:
         Outputs general logging messages to the kernal
     """
 
-    def ask_for_input(message: str):
+    def ask_for_input(message: str) -> str:
         """
         Gets input from the console, passing in a param as the message and returns
 
