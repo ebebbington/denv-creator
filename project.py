@@ -4,6 +4,7 @@ from response import Response
 from containers.nginx import Nginx
 from containers.phpfpm import Phpfpm
 from containers.node import Node
+from containers.python import Python
 
 class Project:
     """
@@ -99,30 +100,27 @@ class Project:
         Logic for creating each container fies based on the containers asked for
         """
 
-        # TODO :: (Edward) Using a 'switch' statement, make a case for every container we have and build those if it matches
+        prefix = self.container_prefix
         for container in self.containers:
             # Configure nginx
             if container == 'nginx':
-                prefix = self.container_prefix
                 nginx = Nginx(prefix)
                 nginx.write_to_dockerfile(self.path)
                 nginx.write_to_docker_compose_file(self.path)
-                # write the config file based on if phpfpm is present
-                if any('phpfpm' in s for s in self.containers):
-                    nginx.write_to_config_file_with_php_fpm(self.path)
-                else:
-                    nginx.write_to_config_file_without_php_fpm(self.path)
+                nginx.write_to_config_file(self.path)
             if container == 'phpfpm':
-                prefix = self.container_prefix
                 phpfpm = Phpfpm(prefix)
                 phpfpm.write_to_dockerfile(self.path)
                 phpfpm.write_to_docker_compose_file(self.path)
                 phpfpm.create_php_ini_file(self.path)
             if container == 'node':
-                prefix = 'self.prefix'
                 node = Node(prefix)
                 node.write_to_dockerfile(self.path)
                 node.write_to_docker_compose_file(self.path)
+            if container == 'python':
+                python = Python(prefix)
+                python.write_to_dockerfile(self.path)
+                python.write_to_docker_compose_file(self.path)
 
 
         Response.show_error('create_containers_from_container_list NOT IMPLEMENTED')

@@ -34,11 +34,8 @@ class Nginx:
     write_to_docker_compose_file()
         Appends to the docker compose file with the neccessary nginx content
 
-    write_to_config_file_with_php_fpm()
+    write_to_config_file()
         Writes the neccessary content to the config file with php-fpm support
-
-    write_to_config_file_without_php_fpm()
-        Writes the neccessary content to the config file where the php-fpm support is commented out
     """
 
     def __init__(self, prefix_for_containers: str):
@@ -104,39 +101,7 @@ class Nginx:
         for text in docker_compose_content:
             file.write(text + '\n')
 
-    def write_to_config_file_with_php_fpm(self, root_path: str):
-        """
-        Writes the neccessary content to the config file for nginx with php-fpm support
-
-        """
-
-        config_content: List[str] = [
-            'server {',
-	        '  listen {};'.format(self.port),
-            '',
-            '  ##',
-            '  # PHP-FPM',
-            '  ##',
-            '  location ~ \.php$ {',
-  	        '    include /etc/nginx/fastcgi_params;',
-		    '    root /var/www/src;',
-            '    fastcgi_split_path_info ^(.+?\.php)(/.*)$;',
-            '    fastcgi_pass	phpfpm:3002;',
-		    '    fastcgi_param SCRIPT_FILENAME $document_root/$fastcgi_script_name;',
-            '  }',
-            '',
-            '  location / {',
-		    '    root /var/www/src;',
-		    '    index index.php;',
-		    '    rewrite ^ /index.php?$args last; break;',
-	        '  }',
-            '}'
-        ]
-        file = open('{}/.docker/config/nginx.conf'.format(root_path), 'w')
-        for text in config_content:
-            file.write(text + '\n')
-
-    def write_to_config_file_without_php_fpm(self, root_path: str):
+    def write_to_config_file(self, root_path: str):
         """
         Writes the neccessary content to the config file for nginx with php-fpm support commented out
     
