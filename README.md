@@ -23,6 +23,9 @@ Automates the process of creating a docker environment (using `docker-compose`) 
     * Utilises an `env` file inside `.docker/env/`. Remember to change this if required
     * Creates an empty dump file
 
+* MongoDB
+    * Comes with it's own environmental file
+
 # Requirements
 
 * Python
