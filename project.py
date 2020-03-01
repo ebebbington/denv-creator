@@ -128,8 +128,10 @@ class Project:
                 sql.write_to_docker_compose_file(self.path)
                 sql.create_dump_file(self.path)
                 sql.create_env_file(self.path)
-
-
+            if container == 'mongo':
+                mongo = Mongo(prefix)
+                mongo.write_to_docker_compose_file(self.path)
+                mongo.create_env_file(self.path)
         Response.show_error('create_containers_from_container_list NOT IMPLEMENTED')
 
     def init_docker_compose_file(self):
