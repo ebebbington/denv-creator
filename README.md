@@ -7,8 +7,17 @@ Automates the process of creating a docker environment (using `docker-compose`) 
 # Supported Containers
 
 * Nginx
+    * No services/containers are defined in the config file, you have to define this yourself
+    * Proxy passing to PHP-FPM is present in the config file but is commented out. If you are using PHP-FPM, make sure to uncomment it
+
 * PHP-FPM
+    * Pre installed with Xdebug and Composer
+
 * Node
+    * Pre installed with PM2
+
+* Python
+    * Pre installed with Flask (and FlaskSocketIO) and PM2 (and it's own ecosystem file)
 
 # Requirements
 
