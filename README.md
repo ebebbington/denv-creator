@@ -26,6 +26,10 @@ Automates the process of creating a docker environment (using `docker-compose`) 
 * MongoDB
     * Comes with it's own environmental file
 
+* Mongo Seeder
+    * Already seeds the database, using database name inside the dockerfile.
+    * Creates an empty `.docker/data/mongo-data-dump` directory where the dumps are placed
+
 # Requirements
 
 * Python
