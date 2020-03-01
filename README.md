@@ -19,6 +19,10 @@ Automates the process of creating a docker environment (using `docker-compose`) 
 * Python
     * Pre installed with Flask (and FlaskSocketIO) and PM2 (and it's own ecosystem file)
 
+* SQL
+    * Utilises an `env` file inside `.docker/env/`. Remember to change this if required
+    * Creates an empty dump file
+
 # Requirements
 
 * Python
@@ -30,9 +34,12 @@ Automates the process of creating a docker environment (using `docker-compose`) 
 `cd /path/to/my/development/environments`
 `git clone https://github.com/ebebbington/denv-creator.git`
  
- **Create your project!**
+**Create your project!**
  
- `python denv-creator/index.py`
+`python denv-creator/index.py`
+
+**Notes**
+Remember to adjust certain files, such as the `docker-compose.yml` file to specify what services depend on what
  
 # File Structure
 

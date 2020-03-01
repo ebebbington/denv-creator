@@ -34,10 +34,3 @@ Project.init_git_repo()
 
 # Remove this directory
 #Project.clean_up()
-
-# NOTES
-
-# mounted directory is called src
-# nginx port is 3001
-# phpfpm port is 3002
-# NEW NAME docker builder?

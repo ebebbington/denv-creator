@@ -5,6 +5,7 @@ from containers.nginx import Nginx
 from containers.phpfpm import Phpfpm
 from containers.node import Node
 from containers.python import Python
+from containers.sql import Sql
 
 class Project:
     """
@@ -121,6 +122,12 @@ class Project:
                 python = Python(prefix)
                 python.write_to_dockerfile(self.path)
                 python.write_to_docker_compose_file(self.path)
+            if container == 'sql':
+                sql = Sql(prefix)
+                sql.write_to_dockerfile(self.path)
+                sql.write_to_docker_compose_file(self.path)
+                sql.create_dump_file(self.path)
+                sql.create_env_file(self.path)
 
 
         Response.show_error('create_containers_from_container_list NOT IMPLEMENTED')
