@@ -6,6 +6,7 @@ from containers.phpfpm import Phpfpm
 from containers.node import Node
 from containers.python import Python
 from containers.sql import Sql
+from containers.mongoseeder import MongoSeeder
 
 class Project:
     """
@@ -132,7 +133,12 @@ class Project:
                 mongo = Mongo(prefix)
                 mongo.write_to_docker_compose_file(self.path)
                 mongo.create_env_file(self.path)
-        Response.show_error('create_containers_from_container_list NOT IMPLEMENTED')
+            if container == 'mongoseeder':
+                mongo_seeder = MongoSeeder(prefix)
+                mongo_seeder.write_to_dockerfile(self.path)
+                mongo_seeder.write_to_docker_compose_file(self.path)
+                mongo_seeder.create_dump_dir(self.path)
+        Response.show_info('Created containers')
 
     def init_docker_compose_file(self):
         """
