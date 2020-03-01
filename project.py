@@ -138,6 +138,11 @@ class Project:
                 mongo_seeder.write_to_dockerfile(self.path)
                 mongo_seeder.write_to_docker_compose_file(self.path)
                 mongo_seeder.create_dump_dir(self.path)
+            if container == 'apache':
+                apache = Apache(prefix)
+                apache.write_to_dockerfile(self.path)
+                apache.write_to_docker_compose_file(self.path)
+                apache.write_to_config_file(self.path)
         Response.show_info('Created containers')
 
     def init_docker_compose_file(self):

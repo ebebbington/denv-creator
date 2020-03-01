@@ -30,6 +30,9 @@ Automates the process of creating a docker environment (using `docker-compose`) 
     * Already seeds the database, using database name inside the dockerfile.
     * Creates an empty `.docker/data/mongo-data-dump` directory where the dumps are placed
 
+* Apache
+    * If using PHP, comment out the comment inside of the config file
+
 # Requirements
 
 * Python
