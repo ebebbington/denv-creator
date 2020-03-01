@@ -58,7 +58,6 @@ class Nginx:
         self.container_name: str = prefix_for_containers + '_nginx'
         self.port: int = config.ports['nginx']
         self.dockerfile_name: str = 'nginx.dockerfile'
-        print(self.port)
 
     def write_to_dockerfile(self, root_path: str):
         """

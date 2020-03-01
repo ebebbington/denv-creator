@@ -3,6 +3,7 @@ from validate import Validate
 from response import Response
 from containers.nginx import Nginx
 from containers.phpfpm import Phpfpm
+from containers.node import Node
 
 class Project:
     """
@@ -117,6 +118,11 @@ class Project:
                 phpfpm.write_to_dockerfile(self.path)
                 phpfpm.write_to_docker_compose_file(self.path)
                 phpfpm.create_php_ini_file(self.path)
+            if container == 'node':
+                prefix = 'self.prefix'
+                node = Node(prefix)
+                node.write_to_dockerfile(self.path)
+                node.write_to_docker_compose_file(self.path)
 
 
         Response.show_error('create_containers_from_container_list NOT IMPLEMENTED')
