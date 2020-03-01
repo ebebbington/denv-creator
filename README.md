@@ -8,6 +8,7 @@ Automates the process of creating a docker environment (using `docker-compose`) 
 
 * Nginx
 * PHP-FPM
+* Node
 
 # Requirements
 
