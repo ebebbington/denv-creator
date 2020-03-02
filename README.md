@@ -51,7 +51,8 @@ Automates the process of creating a docker environment (using `docker-compose`) 
 `python denv-creator/index.py`
 
 **Notes**
-Remember to adjust certain files, such as the `docker-compose.yml` file to specify what services depend on what
+* Remember to adjust certain files, such as the `docker-compose.yml` file to specify what services depend on what
+* Also, if you are seperating source code for each container, remember to modif the related values inside the `docker-compose.yml` file
  
 # File Structure
 
