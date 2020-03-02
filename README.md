@@ -9,6 +9,7 @@ Automates the process of creating a docker environment (using `docker-compose`) 
 * Nginx
     * No services/containers are defined in the config file, you have to define this yourself
     * Proxy passing to PHP-FPM is present in the config file but is commented out. If you are using PHP-FPM, make sure to uncomment it
+    * Depends on any other services defined
 
 * PHP-FPM
     * Pre installed with Xdebug and Composer
@@ -32,6 +33,7 @@ Automates the process of creating a docker environment (using `docker-compose`) 
 
 * Apache
     * If using PHP, comment out the comment inside of the config file
+    * Depends on any other services defined
 
 # Requirements
 
