@@ -56,7 +56,7 @@ class Mongo:
             "    container_name: {}".format(self.container_name),
             "    image: mongo",
             "    ports:",
-            '      "27017:27017',
+            '      "27017:27017"',
             "    env_file:",
             "      - ./.docker/env/mongo.env",
             "    networks:",

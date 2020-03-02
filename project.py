@@ -6,7 +6,9 @@ from containers.phpfpm import Phpfpm
 from containers.node import Node
 from containers.python import Python
 from containers.sql import Sql
+from containers.mongo import Mongo
 from containers.mongoseeder import MongoSeeder
+from containers.apache import Apache
 
 class Project:
     """
@@ -102,7 +104,7 @@ class Project:
         Logic for creating each container fies based on the containers asked for
         """
 
-        prefix = self.container_prefix
+        prefix = 'self.container_prefix'
         for container in self.containers:
             # Configure nginx
             if container == 'nginx':

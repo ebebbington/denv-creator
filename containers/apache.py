@@ -108,20 +108,20 @@ class Apache:
             'ServerName localhost',
             '',
             'LoadModule deflate_module /usr/local/apache2/modules/mod_deflate.so',
-            'LoadModule proxy_module /usr/local/apache2/modules/mod_proxy.so'.
+            'LoadModule proxy_module /usr/local/apache2/modules/mod_proxy.so',
             'LoadModule proxy_fcgi_module /usr/local/apache2/modules/mod_proxy_fcgi.so',
 
             '<VirtualHost *:{}>'.format(self.port),
-                '#ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://php:9000/var/www/html/$1',
-                'DocumentRoot /var/www/asrc/',
-                '<Directory /var/www/src/>',
-                    '#DirectoryIndex index.php',
-                    'Options Indexes FollowSymLinks',
-                    'AllowOverride All',
-                    'Require all granted',
-                '</Directory>',
-                'CustomLog /proc/self/fd/1 common',
-                'ErrorLog /proc/self/fd/2',
+            '  #ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://php:9000/var/www/html/$1',
+            '  DocumentRoot /var/www/asrc/',
+            '  <Directory /var/www/src/>',
+            '    #DirectoryIndex index.php',
+            '    Options Indexes FollowSymLinks',
+            '    AllowOverride All',
+            '    Require all granted',
+            '  </Directory>',
+            '  CustomLog /proc/self/fd/1 common',
+            '  ErrorLog /proc/self/fd/2',
             '</VirtualHost>'
         ]
         file = open('{}/.docker/config/apache.conf'.format(root_path), 'w')
