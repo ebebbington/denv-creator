@@ -97,6 +97,8 @@ class Nginx:
             "    networks:",
             "      - {}-network".format(self.prefix)
         ]
+        if self.depends_on_string != '':
+            docker_compose_content.insert(2, self.depends_on_string)
         file = open('{}/docker-compose.yml'.format(root_path), 'a')
         for text in docker_compose_content:
             file.write(text + '\n')
@@ -133,3 +135,6 @@ class Nginx:
         file = open('{}/.docker/config/nginx.conf'.format(root_path), 'w')
         for text in config_content:
             file.write(text + '\n')
+
+    def update_services_to_depend_on(self, depends_on_string: str):
+        self.depends_on_string = depends_on_string

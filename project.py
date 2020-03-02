@@ -108,7 +108,9 @@ class Project:
         for container in self.containers:
             # Configure nginx
             if container == 'nginx':
+                depends_on_string = self._construct_depends_on_list(container)
                 nginx = Nginx(prefix)
+                nginx.update_services_to_depend_on(depends_on_string)
                 nginx.write_to_dockerfile(self.path)
                 nginx.write_to_docker_compose_file(self.path)
                 nginx.write_to_config_file(self.path)
@@ -192,3 +194,16 @@ class Project:
             open('{}/README.md'.format(self.path), 'x')
         except OSError as err:
             Response.show_error('Unable to create files: {}. Please check the directory and/or remove files. Are you specifying Unix or Windows paths for your respective OS?'.format(err))
+
+    def _construct_depends_on_list (self, container_name_to_ignore: str) -> str:
+        depends_on_list = ['    depends_on:']
+        other_containers_found = False
+        for container in self.containers:
+            if container != container_name_to_ignore:
+                other_containers_found = True
+                depends_on_list.append('\n      - ' + container)
+        depends_on_string = ''.join(depends_on_list)
+        if other_containers_found == True:
+            return depends_on_string
+        else:
+            return ''
