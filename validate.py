@@ -1,6 +1,6 @@
 import os
 import re
-from project.response import Response
+from response import Response
 
 class Validate:
     """
@@ -17,7 +17,7 @@ class Validate:
         Checks the passed in directory name against some RegEx for determining a valid directory name
     """
 
-    def dir_exists(dir):
+    def dir_exists(dir: str):
         """
         Checks if a given directory exists on the file system
 
@@ -30,7 +30,7 @@ class Validate:
         if os.path.exists(dir):
             Response.show_error('The {} directory already exists'.format(dir))
 
-    def is_valid_dir_name(dir):
+    def is_valid_dir_name(dir: str):
         """
         Checks a given directory name against regex to make sure its a valid directory name
 
@@ -40,6 +40,6 @@ class Validate:
             The directory to check against
         """
 
-        match = re.match("^[\w\-./]+$", dir)
+        match: bool = re.match("^[\w\-./]+$", dir)
         if not match:
             Response.show_error('{} is not a valid directory'.format(dir))

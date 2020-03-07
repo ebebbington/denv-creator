@@ -1,5 +1,5 @@
 # Import the project class
-from project.main import Project
+from project import Project
 
 # Create a new object of the project
 Project = Project()
@@ -14,10 +14,11 @@ Project.get_list_of_containers()
 # pprint(vars(Project))
 
 # Prefix the container names with something
-Project.get_prefix_for_containers()
+#Project.get_prefix_for_containers()
 
 # Creates the base directories and files
 Project.create_base_files()
+Project.create_containers_from_container_list()
 
 # Add the starting block to the docker-compose.yml file
 Project.init_docker_compose_file()
@@ -32,11 +33,4 @@ Project.add_network_block_to_compose_file()
 Project.init_git_repo()
 
 # Remove this directory
-Project.clean_up()
-
-# NOTES
-
-# mounted directory is called src
-# nginx port is 3001
-# phpfpm port is 3002
-# NEW NAME docker builder?
+#Project.clean_up()
