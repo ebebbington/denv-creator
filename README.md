@@ -35,6 +35,8 @@ Automates the process of creating a docker environment (using `docker-compose`) 
     * If using PHP, comment out the comment inside of the config file
     * Depends on any other services defined
 
+* Redis
+
 # Requirements
 
 * Python

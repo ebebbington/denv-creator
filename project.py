@@ -9,6 +9,7 @@ from containers.sql import Sql
 from containers.mongo import Mongo
 from containers.mongoseeder import MongoSeeder
 from containers.apache import Apache
+from containers.redis import Redis
 
 class Project:
     """
@@ -104,7 +105,7 @@ class Project:
         Logic for creating each container fies based on the containers asked for
         """
 
-        prefix = 'self.container_prefix'
+        prefix = self.container_prefix
         for container in self.containers:
             # Configure nginx
             if container == 'nginx':
@@ -147,6 +148,10 @@ class Project:
                 apache.write_to_dockerfile(self.path)
                 apache.write_to_docker_compose_file(self.path)
                 apache.write_to_config_file(self.path)
+            if container == 'redis':
+                redis = Redis(prefix)
+                redis.write_to_dockerfile(self.path)
+                redis.write_to_docker_compose_file(self.path)
         Response.show_info('Created containers')
 
     def init_docker_compose_file(self):

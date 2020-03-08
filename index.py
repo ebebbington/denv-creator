@@ -14,11 +14,10 @@ Project.get_list_of_containers()
 # pprint(vars(Project))
 
 # Prefix the container names with something
-#Project.get_prefix_for_containers()
+Project.get_prefix_for_containers()
 
 # Creates the base directories and files
 Project.create_base_files()
-Project.create_containers_from_container_list()
 
 # Add the starting block to the docker-compose.yml file
 Project.init_docker_compose_file()
