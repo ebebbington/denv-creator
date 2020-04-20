@@ -107,6 +107,26 @@ Automates the process of creating a docker environment (using `docker-compose`) 
 
 4. Eventually when all data is collected, the project class uses the container classes to aid in creating/writing files and directories
 
+# Tests
+
+Unit testing has been setup and tries to cover 100% of the code.
+
+Testing was also achieved by installing `pytest` and `coverage`:
+
+```shell
+pip install pytest coverage
+```
+
+## Writing the Tests
+
+There is a test file for each other file, that mimics the file and tests each method.
+
+## Running the tests
+
+`pytest`
+
+**With code coverage:** `pytest && coverage html --omit="*_test.py"`
+
 # Built With
 
 * [Python](https://docs.python.org) - Language used
