@@ -125,7 +125,7 @@ There is a test file for each other file, that mimics the file and tests each me
 
 `pytest`
 
-**With code coverage:** `pytest && coverage html --omit="*_test.py"`
+**With code coverage:** `coverage run--source . -m pytest && coverage html --omit="*_test.py"`
 
 # Built With
 
