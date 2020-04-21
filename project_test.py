@@ -11,6 +11,7 @@ from containers.phpfpm import Phpfpm
 from containers.node import Node
 from containers.python import Python
 from containers.sql import Sql
+from containers.mongo import Mongo
 os.environ['ENV'] = 'testing'
 
 class ProjectTest(unittest.TestCase):
@@ -245,6 +246,38 @@ class ProjectTest(unittest.TestCase):
         self.assertTrue(os.path.exists('./my-project/.docker/data/sql-data-dump.sql'))
         self.assertTrue(os.path.exists('./my-project/.docker/env/sql.env'))
         f.close()
+        shutil.rmtree('./my-project')
+
+        # mongo
+        mongo = Mongo('my_project')
+        project.containers = ["mongo"]
+        os.mkdir('my-project')
+        os.mkdir('./my-project/.docker')
+        os.mkdir('./my-project/.docker/config')
+        os.mkdir('./my-project/.docker/data')
+        os.mkdir('./my-project/.docker/env')
+        project.create_containers_from_container_list()
+        # start of env content
+        env_content = mongo.get_env_content()
+        new_env_content = []
+        for x in env_content:
+            new_env_content.append(x + '\n')
+        file_contents = []
+        f = open('./my-project/.docker/env/mongo.env', 'r')
+        for x in f:
+          file_contents.append(x)
+        self.assertEqual(new_env_content, file_contents)
+        f.close()
+        # start of docker compose content
+        docker_compose_content = mongo.get_docker_compose_content()
+        new_docker_compose_content = []
+        for x in docker_compose_content:
+            new_docker_compose_content.append(x + '\n')
+        file_contents = []
+        f = open('./my-project/docker-compose.yml', 'r')
+        for x in f:
+            file_contents.append(x)
+        self.assertEqual(new_docker_compose_content, file_contents)
         shutil.rmtree('./my-project')
 
 #     def test_init_docker_compose_file(self):

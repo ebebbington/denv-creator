@@ -169,8 +169,14 @@ class Project:
                 sql.create_env_file(self.path)
             if container == 'mongo':
                 mongo = Mongo(prefix)
-                mongo.write_to_docker_compose_file(self.path)
-                mongo.create_env_file(self.path)
+                docker_compose_content = mongo.get_docker_compose_content()
+                file = open('{}/docker-compose.yml'.format(self.path), 'a')
+                for text in docker_compose_content:
+                    file.write(text + '\n')
+                env_content = mongo.get_env_content()
+                file = open('{}/.docker/env/mongo.env'.format(self.path), 'a')
+                for text in env_content:
+                    file.write(text + '\n')
             if container == 'mongoseeder':
                 mongo_seeder = MongoSeeder(prefix)
                 mongo_seeder.write_to_dockerfile(self.path)

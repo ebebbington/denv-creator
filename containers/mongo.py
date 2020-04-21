@@ -24,11 +24,11 @@ class Mongo:
 
     Methods
     -------
-    write_to_docker_compose_file(root_path: str)
-        Appends to the docker compose file with the neccessary mongo content
+    get_docker_compose_content()
+        Returns to the docker compose file with the neccessary mongo content
 
-    create_env_file(root_path: str)
-        Creates the environmental file
+    get_env_content(root_path: str)
+        Returns the environmental file content
     """
 
     def __init__(self, prefix_for_containers: str):
@@ -45,9 +45,9 @@ class Mongo:
         self.prefix: str = prefix_for_containers
         self.container_name: str = prefix_for_containers + '_mongo'
 
-    def write_to_docker_compose_file(self, root_path: str):
+    def get_docker_compose_content(self):
         """
-        Writes the neccessary content to the docker-compose.yml file for mongo
+        Returns the neccessary content to the docker-compose.yml file for mongo
 
         """
 
@@ -62,13 +62,11 @@ class Mongo:
             "    networks:",
             "      - {}-network".format(self.prefix)
         ]
-        file = open('{}/docker-compose.yml'.format(root_path), 'a')
-        for text in docker_compose_content:
-            file.write(text + '\n')
+        return docker_compose_content
 
-    def create_env_file(self, root_path: str):
+    def get_env_content(self):
         """
-        Creates the environment file
+        Returns the environment file content
 
         """
         content = [
@@ -80,6 +78,4 @@ class Mongo:
             'MONGODB_DBNAME=db',
             'MONGODB_ROLE=readWrite'
         ]
-        file = open('{}/.docker/env/mongo.env'.format(root_path), 'a')
-        for text in content:
-            file.write(text + '\n')
+        return content
