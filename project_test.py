@@ -6,6 +6,7 @@ from unittest import TestCase
 import os
 from pprint import pprint
 import shutil
+from containers.nginx import Nginx
 
 class ProjectTest(unittest.TestCase):
 
@@ -36,42 +37,67 @@ class ProjectTest(unittest.TestCase):
         except:
             self.assertRaises(SystemExit)
 
-    @patch('builtins.input', lambda *args: 'my-project')
-    def test_get_prefix_for_containers(self):
-        project = Project()
-        project.get_prefix_for_containers()
-        self.assertEqual(project.container_prefix, 'my-project')
+#     @patch('builtins.input', lambda *args: 'my-project')
+#     def test_get_prefix_for_containers(self):
+#         project = Project()
+#         project.get_prefix_for_containers()
+#         self.assertEqual(project.container_prefix, 'my-project')
 
-    def test_add_network_block_to_compose_file(self):
-        project = Project()
-        # mock the property needed in this method
-        project.container_prefix = "hello"
-        project.add_network_block_to_compose_file()
-        # TODO :: Once implemented then assert this content is inside the file
-        text_block: List[str] = [
-            'network:',
-            '  {}-network:'.format(self.container_prefix),
-            '    driver: bridge'
-        ]
-
-    def test_init_git_repo(self):
-        project = Project()
-        project.init_git_repo()
-        # TODO :: Assert the project is using git (check for .git folder?)
+#     def test_add_network_block_to_compose_file(self):
+#         project = Project()
+#         # mock the property needed in this method
+#         project.container_prefix = "hello"
+#         project.add_network_block_to_compose_file()
+#         # TODO :: Once implemented then assert this content is inside the file
+#         text_block: List[str] = [
+#             'network:',
+#             '  {}-network:'.format(self.container_prefix),
+#             '    driver: bridge'
+#         ]
+#
+#     def test_init_git_repo(self):
+#         project = Project()
+#         project.init_git_repo()
+#         # TODO :: Assert the project is using git (check for .git folder?)
 
     def test_create_containers_from_container_list(self):
-        print(1)
-        # TODO
-        #    nginx, phpfpm, node, python, sql, mongo, mongoseeder, apache, redis
-
-    def test_init_docker_compose_file(self):
+        # setup
         project = Project()
-        # TODO :: assert the below is inside the file when the mehthod is implemented
-        text: List[str] = [
-            'version: "3"',
-            '  services:'
-        ]
-        project.init_docker_compose_file()
+        project.container_prefix = "my_project"
+        os.mkdir('my-project')
+        project.path = "./my-project"
+
+        # nginx
+        project.containers = ["nginx"]
+        os.mkdir('./my-project/.docker')
+        os.mkdir('./my-project/.docker/config')
+        project.create_containers_from_container_list()
+        nginx = Nginx('')
+        # start of asserting dockerfile content
+        nginx_dockerfile_content = nginx.get_dockerfile_content()
+        # add nl char to list to match what is read in file
+        new_dockerfile_content = []
+        for x in nginx_dockerfile_content:
+            new_dockerfile_content.append(x + '\n')
+        file_contents = []
+        f = open('./my-project/.docker/nginx.dockerfile', 'r')
+        for x in f:
+          file_contents.append(x)
+        self.assertEqual(new_dockerfile_content, file_contents)
+        f.close()
+        # start of asserting docker compose content
+
+
+        shutil.rmtree('./my-project')
+
+#     def test_init_docker_compose_file(self):
+#         project = Project()
+#         # TODO :: assert the below is inside the file when the mehthod is implemented
+#         text: List[str] = [
+#             'version: "3"',
+#             '  services:'
+#         ]
+#         project.init_docker_compose_file()
 
     def test_create_base_files(self):
         project = Project()
