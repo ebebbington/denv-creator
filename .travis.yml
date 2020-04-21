@@ -1,0 +1,7 @@
+language: ruby
+
+before_install:
+  - pip install pytest
+
+script:
+  - pytest
