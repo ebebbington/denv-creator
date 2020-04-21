@@ -7,6 +7,8 @@ import os
 from pprint import pprint
 import shutil
 from containers.nginx import Nginx
+from containers.phpfpm import Phpfpm
+os.environ['ENV'] = 'testing'
 
 class ProjectTest(unittest.TestCase):
 
@@ -64,11 +66,11 @@ class ProjectTest(unittest.TestCase):
         # setup
         project = Project()
         project.container_prefix = "my_project"
-        os.mkdir('my-project')
         project.path = "./my-project"
 
         # nginx
         project.containers = ["nginx"]
+        os.mkdir('my-project')
         os.mkdir('./my-project/.docker')
         os.mkdir('./my-project/.docker/config')
         project.create_containers_from_container_list()
@@ -108,7 +110,40 @@ class ProjectTest(unittest.TestCase):
           file_contents.append(x)
         self.assertEqual(new_config_file_content, file_contents)
         f.close()
+        shutil.rmtree('./my-project')
 
+        # phpfpm
+        phpfpm = Phpfpm('my_project')
+        project.containers = ["phpfpm"]
+        os.mkdir('my-project')
+        os.mkdir('./my-project/.docker')
+        os.mkdir('./my-project/.docker/config')
+        project.create_containers_from_container_list()
+        # start of dockerfile content
+        phpfpm_dockerfile_content = phpfpm.get_dockerfile_content()
+        new_dockerfile_content = []
+        for x in phpfpm_dockerfile_content:
+            new_dockerfile_content.append(x + '\n')
+        file_contents = []
+        f = open('./my-project/.docker/phpfpm.dockerfile', 'r')
+        for x in f:
+          file_contents.append(x)
+        self.assertEqual(new_dockerfile_content, file_contents)
+        f.close()
+        # start of docker compose content
+        phpfpm_docker_compose_content = phpfpm.get_docker_compose_content()
+        new_docker_compose_content = []
+        for x in phpfpm_docker_compose_content:
+            new_docker_compose_content.append(x + '\n')
+        file_contents = []
+        f = open('./my-project/docker-compose.yml', 'r')
+        for x in f:
+          file_contents.append(x)
+        self.assertEqual(new_dockerfile_content, file_contents)
+        f.close()
+        #start of php ini copy
+        phpfpm.create_php_ini_file(project.path)
+        self.assertEqual(True, os.path.isfile("./my-project/.docker/config/php.ini"))
         shutil.rmtree('./my-project')
 
 #     def test_init_docker_compose_file(self):
