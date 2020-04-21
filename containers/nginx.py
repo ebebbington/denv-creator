@@ -58,7 +58,7 @@ class Nginx:
 
     def get_dockerfile_content(self):
         """
-        Writes the neccessary content to the dockerfile for nginx
+        Holds the neccessary content for the dockerfile for nginx
 
         """
 
@@ -75,9 +75,9 @@ class Nginx:
         ]
         return dockerfile_content
 
-    def write_to_docker_compose_file(self, root_path: str):
+    def get_docker_compose_content(self):
         """
-        Writes the neccessary content to the docker-compose.yml file for nginx
+        Holds the neccessary content for the docker-compose.yml file for nginx
 
         """
 
@@ -97,9 +97,7 @@ class Nginx:
         ]
         if self.depends_on_string != '':
             docker_compose_content.insert(2, self.depends_on_string)
-        file = open('{}/docker-compose.yml'.format(root_path), 'a')
-        for text in docker_compose_content:
-            file.write(text + '\n')
+        return docker_compose_content
 
     def write_to_config_file(self, root_path: str):
         """
