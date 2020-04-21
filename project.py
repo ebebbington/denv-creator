@@ -120,7 +120,10 @@ class Project:
                 file = open('{}/docker-compose.yml'.format(self.path), 'a')
                 for text in docker_compose_content:
                     file.write(text + '\n')
-                nginx.write_to_config_file(self.path)
+                config_content = nginx.get_config_file_content()
+                file = open('{}/.docker/config/nginx.conf'.format(self.path), 'w')
+                for text in config_content:
+                    file.write(text + '\n')
             if container == 'phpfpm':
                 phpfpm = Phpfpm(prefix)
                 phpfpm.write_to_dockerfile(self.path)
