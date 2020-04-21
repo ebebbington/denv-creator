@@ -26,11 +26,11 @@ class Node:
 
     Methods
     -------
-    write_to_dockerfile()
-        Writes the neccessary content to the dockerfile for node
+    get_dockerfile_content()
+        Gets the neccessary content for the dockerfile for node
 
-    write_to_docker_compose_file()
-        Appends to the docker compose file with the neccessary node content
+    get_docker_compose_content()
+        Gets to the docker compose content for node
     """
 
     def __init__(self, prefix_for_containers: str):
@@ -48,7 +48,7 @@ class Node:
         self.container_name: str = prefix_for_containers + '_node'
         self.dockerfile_name: str = 'node.dockerfile'
 
-    def write_to_dockerfile(self, root_path: str):
+    def get_dockerfile_content(self):
         """
         Writes the neccessary content to the dockerfile for node
 
@@ -61,13 +61,11 @@ class Node:
             '',
             'RUN     yes | npm i pm2 -g'
         ]
-        file = open('{}/.docker/{}'.format(root_path, self.dockerfile_name), 'w')
-        for text in dockerfile_content:
-            file.write(text + '\n')
+        return dockerfile_content
 
-    def write_to_docker_compose_file(self, root_path: str):
+    def get_docker_compose_content(self):
         """
-        Writes the neccessary content to the docker-compose.yml file for node
+        Returns the neccessary content for the docker-compose.yml file for node
 
         """
 
@@ -84,6 +82,4 @@ class Node:
             "    networks:",
             "      - {}-network".format(self.prefix)
         ]
-        file = open('{}/docker-compose.yml'.format(root_path), 'a')
-        for text in docker_compose_content:
-            file.write(text + '\n')
+        return docker_compose_content

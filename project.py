@@ -130,15 +130,21 @@ class Project:
                 file = open('{}/./.docker/{}'.format(self.path, phpfpm.dockerfile_name), 'w')
                 for text in dockerfile_content:
                     file.write(text + '\n')
-                docker_compose_content = phpfpm.get_dockerfile_content()
+                docker_compose_content = phpfpm.get_docker_compose_content()
                 file = open('{}/./docker-compose.yml'.format(self.path), 'a')
                 for text in docker_compose_content:
                     file.write(text + '\n')
                 phpfpm.create_php_ini_file(self.path)
             if container == 'node':
                 node = Node(prefix)
-                node.write_to_dockerfile(self.path)
-                node.write_to_docker_compose_file(self.path)
+                dockerfile_content = node.get_dockerfile_content()
+                file = open('{}/.docker/{}'.format(self.path, node.dockerfile_name), 'w')
+                for text in dockerfile_content:
+                    file.write(text + '\n')
+                docker_compose_content = node.get_docker_compose_content()
+                file = open('{}/docker-compose.yml'.format(self.path), 'a')
+                for text in docker_compose_content:
+                    file.write(text + '\n')
             if container == 'python':
                 python = Python(prefix)
                 python.write_to_dockerfile(self.path)
