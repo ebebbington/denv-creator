@@ -72,7 +72,7 @@ class ProjectTest(unittest.TestCase):
         os.mkdir('./my-project/.docker')
         os.mkdir('./my-project/.docker/config')
         project.create_containers_from_container_list()
-        nginx = Nginx('')
+        nginx = Nginx('my_project')
         # start of asserting dockerfile content
         nginx_dockerfile_content = nginx.get_dockerfile_content()
         # add nl char to list to match what is read in file
@@ -86,7 +86,17 @@ class ProjectTest(unittest.TestCase):
         self.assertEqual(new_dockerfile_content, file_contents)
         f.close()
         # start of asserting docker compose content
-
+        nginx.depends_on_string = ''
+        nginx_docker_compose_content = nginx.get_docker_compose_content()
+        new_docker_compose_content = []
+        for x in nginx_docker_compose_content:
+            new_docker_compose_content.append(x + '\n')
+        file_contents = []
+        f = open('./my-project/docker-compose.yml', 'r')
+        for x in f:
+          file_contents.append(x)
+        self.assertEqual(new_docker_compose_content, file_contents)
+        f.close()
 
         shutil.rmtree('./my-project')
 
