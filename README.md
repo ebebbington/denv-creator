@@ -1,5 +1,7 @@
 # Docker Environment Creator (denv-creator)
 
+[![Build Status](https://travis-ci.com/ebebbington/denv-creator.svg?branch=master)](https://travis-ci.com/ebebbington/copytube)
+
 ***This project is under construction and does not currently function properly. Feel free to use it and test it.***
 
 Automates the process of creating a docker environment (using `docker-compose`) with all the containers you want, also with all of their respective configuration files. This can be done by answering a few questions on the command line.
