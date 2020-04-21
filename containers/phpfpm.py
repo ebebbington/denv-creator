@@ -1,4 +1,5 @@
 import config
+import os
 
 class Phpfpm:
 
@@ -21,10 +22,10 @@ class Phpfpm:
     Methods
     -------
     write_to_dockerfile()
-        Writes the neccessary content to the dockerfile for phpfpm
+        Returns the neccessary content for the dockerfile for phpfpm
 
     write_to_docker_compose_file()
-        Appends to the docker compose file with the neccessary nginx content
+        Returns the docker compose content for phpfpm
 
     create_php_ini_file()
         Copies over the php.ini file
@@ -48,9 +49,9 @@ class Phpfpm:
         self.port: str = config.ports['phpfpm']
         self.dockerfile_name: str = 'phpfpm.dockerfile'
 
-    def write_to_dockerfile(self, root_path):
+    def get_dockerfile_content(self):
         """
-        Writes the neccessary content to the dockerfile for nginx
+        Returns the neccessary content for the dockerfile for phpfpm
 
         """
 
@@ -88,14 +89,11 @@ class Phpfpm:
             '# Install composer',
             'RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer'
         ]
+        return dockerfile_content
 
-        file = open('{}/./.docker/{}'.format(root_path, self.dockerfile_name), 'w')
-        for text in dockerfile_content:
-            file.write(text + '\n')
-
-    def write_to_docker_compose_file(self, root_path):
+    def get_docker_compose_content(self):
         """
-        Writes the neccessary content to the docker-compose.yml file for nginx
+        Returns the neccessary content for the docker-compose.yml file for phpfpm
 
         """
 
@@ -114,10 +112,7 @@ class Phpfpm:
             '    networks:',
             '      - {}-network'.format(self.prefix)
         ]
-        
-        file = open('{}/./docker-compose.yml'.format(root_path), 'a')
-        for text in docker_compose_content:
-            file.write(text + '\n')
+        return docker_compose_content
 
     def create_php_ini_file(self, root_path):
         """
@@ -126,4 +121,7 @@ class Phpfpm:
         """
 
         from shutil import copyfile
-        copyfile('{}/../denv-creator/data/php.ini'.format(root_path), '{}/.docker/config/php.ini'.format(root_path))
+        if os.environ['ENV'] == 'testing':
+            copyfile('{}/../data/php.ini'.format(root_path), '{}/.docker/config/php.ini'.format(root_path))
+        else:
+            copyfile('{}/denv-creator/data/php.ini'.format(root_path), '{}/.docker/config/php.ini'.format(root_path))
