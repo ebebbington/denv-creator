@@ -56,7 +56,7 @@ class Nginx:
         self.port: int = config.ports['nginx']
         self.dockerfile_name: str = 'nginx.dockerfile'
 
-    def write_to_dockerfile(self, root_path: str):
+    def get_dockerfile_content(self):
         """
         Writes the neccessary content to the dockerfile for nginx
 
@@ -73,9 +73,7 @@ class Nginx:
             'ENTRYPOINT ["nginx"]',
             'CMD ["-g","daemon off;"]'
         ]
-        file = open('{}/.docker/{}'.format(root_path, self.dockerfile_name), 'w')
-        for text in dockerfile_content:
-            file.write(text + '\n')
+        return dockerfile_content
 
     def write_to_docker_compose_file(self, root_path: str):
         """

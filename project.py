@@ -112,7 +112,10 @@ class Project:
                 depends_on_string = self._construct_depends_on_list(container)
                 nginx = Nginx(prefix)
                 nginx.update_services_to_depend_on(depends_on_string)
-                nginx.write_to_dockerfile(self.path)
+                dockerfile_content = nginx.get_dockerfile_content()
+                file = open('{}/.docker/{}'.format(self.path, nginx.dockerfile_name), 'w')
+                for text in dockerfile_content:
+                    file.write(text + '\n')
                 nginx.write_to_docker_compose_file(self.path)
                 nginx.write_to_config_file(self.path)
             if container == 'phpfpm':
