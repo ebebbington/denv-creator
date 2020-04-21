@@ -97,6 +97,17 @@ class ProjectTest(unittest.TestCase):
           file_contents.append(x)
         self.assertEqual(new_docker_compose_content, file_contents)
         f.close()
+        # start of asserting config file content
+        nginx_config_file_content = nginx.get_config_file_content()
+        new_config_file_content = []
+        for x in nginx_config_file_content:
+            new_config_file_content.append(x + '\n')
+        file_contents = []
+        f = open('./my-project/.docker/config/nginx.conf', 'r')
+        for x in f:
+          file_contents.append(x)
+        self.assertEqual(new_config_file_content, file_contents)
+        f.close()
 
         shutil.rmtree('./my-project')
 
