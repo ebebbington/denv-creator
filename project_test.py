@@ -12,6 +12,7 @@ from containers.node import Node
 from containers.python import Python
 from containers.sql import Sql
 from containers.mongo import Mongo
+from containers.mongoseeder import MongoSeeder
 os.environ['ENV'] = 'testing'
 
 class ProjectTest(unittest.TestCase):
@@ -278,6 +279,39 @@ class ProjectTest(unittest.TestCase):
         for x in f:
             file_contents.append(x)
         self.assertEqual(new_docker_compose_content, file_contents)
+        shutil.rmtree('./my-project')
+
+        # mongoseeder
+        mongo_seeder = MongoSeeder('my_project')
+        project.containers = ["mongoseeder"]
+        os.mkdir('my-project')
+        os.mkdir('./my-project/.docker')
+        os.mkdir('./my-project/.docker/config')
+        os.mkdir('./my-project/.docker/data')
+        os.mkdir('./my-project/.docker/env')
+        project.create_containers_from_container_list()
+        # start of dockerfile content
+        dockerfile_content = mongo_seeder.get_dockerfile_content()
+        new_dockerfile_content = []
+        for x in dockerfile_content:
+            new_dockerfile_content.append(x + '\n')
+        file_contents = []
+        f = open('./my-project/.docker/mongoseeder.dockerfile', 'r')
+        for x in f:
+          file_contents.append(x)
+        self.assertEqual(new_dockerfile_content, file_contents)
+        f.close()
+        # start of docker compose content
+        docker_compose_content = mongo_seeder.get_docker_compose_content()
+        new_docker_compose_content = []
+        for x in docker_compose_content:
+            new_docker_compose_content.append(x + '\n')
+        file_contents = []
+        f = open('./my-project/docker-compose.yml', 'r')
+        for x in f:
+            file_contents.append(x)
+        self.assertEqual(new_docker_compose_content, file_contents)
+        self.assertTrue(os.path.exists('./my-project/.docker/data/mongo-data-dump'))
         shutil.rmtree('./my-project')
 
 #     def test_init_docker_compose_file(self):

@@ -27,11 +27,14 @@ class MongoSeeder:
 
     Methods
     -------
-    write_to_dockerfile()
-        Writes the neccessary content to the dockerfile for mongoseeder
+    get_dockerfile_content()
+        Returns the necessary content to the dockerfile for mongoseeder
 
-    write_to_docker_compose_file()
-        Appends to the docker compose file with the neccessary mongoseeder content
+    get_docker_docker_compose_content()
+        Returns to the docker compose file with the necessary mongoseeder content
+
+    create_dump_dir()
+        Creates a basic dump directory to seed from
     """
 
     def __init__(self, prefix_for_containers: str):
@@ -49,16 +52,16 @@ class MongoSeeder:
         self.container_name: str = prefix_for_containers + '_mongoseeder'
         self.dockerfile_name: str = 'mongoseeder.dockerfile'
 
-    def create_dump_dir(self, root_path):
+    def create_dump_dir(self, root_path: str):
         """
         Create the empty data dump directory
         """
 
         os.mkdir('{}/.docker/data/mongo-data-dump'.format(root_path))
 
-    def write_to_dockerfile(self, root_path: str):
+    def get_dockerfile_content(self):
         """
-        Writes the neccessary content to the dockerfile for mongoseeder
+        Returns the neccessary content to the dockerfile for mongoseeder
 
         """
 
@@ -67,13 +70,11 @@ class MongoSeeder:
             'COPY ./.docker/data/mongo-data-dump /mongo_data',
             'CMD mongorestore --host mongodb --db db /mongo_data'
         ]
-        file = open('{}/.docker/{}'.format(root_path, self.dockerfile_name), 'w')
-        for text in dockerfile_content:
-            file.write(text + '\n')
+        return dockerfile_content
 
-    def write_to_docker_compose_file(self, root_path: str):
+    def get_docker_compose_content(self):
         """
-        Writes the neccessary content to the docker-compose.yml file for mongoseeder
+        Returns the neccessary content to the docker-compose.yml file for mongoseeder
 
         """
 
@@ -88,6 +89,4 @@ class MongoSeeder:
             "    networks:",
             "      - {}-network".format(self.prefix)
         ]
-        file = open('{}/docker-compose.yml'.format(root_path), 'a')
-        for text in docker_compose_content:
-            file.write(text + '\n')
+        return docker_compose_content

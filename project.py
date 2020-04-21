@@ -179,8 +179,14 @@ class Project:
                     file.write(text + '\n')
             if container == 'mongoseeder':
                 mongo_seeder = MongoSeeder(prefix)
-                mongo_seeder.write_to_dockerfile(self.path)
-                mongo_seeder.write_to_docker_compose_file(self.path)
+                dockerfile_content = mongo_seeder.get_dockerfile_content()
+                file = open('{}/.docker/{}'.format(self.path, mongo_seeder.dockerfile_name), 'w')
+                for text in dockerfile_content:
+                    file.write(text + '\n')
+                docker_compose_content = mongo_seeder.get_docker_compose_content()
+                file = open('{}/docker-compose.yml'.format(self.path), 'a')
+                for text in docker_compose_content:
+                    file.write(text + '\n')
                 mongo_seeder.create_dump_dir(self.path)
             if container == 'apache':
                 apache = Apache(prefix)
