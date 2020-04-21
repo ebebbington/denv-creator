@@ -10,6 +10,7 @@ from containers.nginx import Nginx
 from containers.phpfpm import Phpfpm
 from containers.node import Node
 from containers.python import Python
+from containers.sql import Sql
 os.environ['ENV'] = 'testing'
 
 class ProjectTest(unittest.TestCase):
@@ -207,6 +208,42 @@ class ProjectTest(unittest.TestCase):
         for x in f:
             file_contents.append(x)
         self.assertEqual(new_docker_compose_content, file_contents)
+        f.close()
+        shutil.rmtree('./my-project')
+
+        # sql
+        sql = Sql('my_project')
+        project.containers = ["sql"]
+        os.mkdir('my-project')
+        os.mkdir('./my-project/.docker')
+        os.mkdir('./my-project/.docker/config')
+        os.mkdir('./my-project/.docker/data')
+        os.mkdir('./my-project/.docker/env')
+        project.create_containers_from_container_list()
+        # start of dockerfile content
+        dockerfile_content = sql.get_dockerfile_content()
+        new_dockerfile_content = []
+        for x in dockerfile_content:
+            new_dockerfile_content.append(x + '\n')
+        file_contents = []
+        f = open('./my-project/.docker/sql.dockerfile', 'r')
+        for x in f:
+          file_contents.append(x)
+        self.assertEqual(new_dockerfile_content, file_contents)
+        f.close()
+        # start of docker compose content
+        docker_compose_content = sql.get_docker_compose_content()
+        new_docker_compose_content = []
+        for x in docker_compose_content:
+            new_docker_compose_content.append(x + '\n')
+        file_contents = []
+        f = open('./my-project/docker-compose.yml', 'r')
+        for x in f:
+            file_contents.append(x)
+        self.assertEqual(new_docker_compose_content, file_contents)
+        # created both env and dump file
+        self.assertTrue(os.path.exists('./my-project/.docker/data/sql-data-dump.sql'))
+        self.assertTrue(os.path.exists('./my-project/.docker/env/sql.env'))
         f.close()
         shutil.rmtree('./my-project')
 

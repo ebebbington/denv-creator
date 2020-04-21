@@ -157,8 +157,14 @@ class Project:
                     file.write(text + '\n')
             if container == 'sql':
                 sql = Sql(prefix)
-                sql.write_to_dockerfile(self.path)
-                sql.write_to_docker_compose_file(self.path)
+                dockerfile_content = sql.get_dockerfile_content()
+                file = open('{}/.docker/{}'.format(self.path, sql.dockerfile_name), 'w')
+                for text in dockerfile_content:
+                    file.write(text + '\n')
+                docker_compose_content = sql.get_docker_compose_content()
+                file = open('{}/docker-compose.yml'.format(self.path), 'a')
+                for text in docker_compose_content:
+                    file.write(text + '\n')
                 sql.create_dump_file(self.path)
                 sql.create_env_file(self.path)
             if container == 'mongo':
