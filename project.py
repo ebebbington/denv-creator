@@ -190,9 +190,18 @@ class Project:
                 mongo_seeder.create_dump_dir(self.path)
             if container == 'apache':
                 apache = Apache(prefix)
-                apache.write_to_dockerfile(self.path)
-                apache.write_to_docker_compose_file(self.path)
-                apache.write_to_config_file(self.path)
+                dockerfile_content = apache.get_dockerfile_content()
+                file = open('{}/.docker/{}'.format(self.path, apache.dockerfile_name), 'w')
+                for text in dockerfile_content:
+                    file.write(text + '\n')
+                docker_compose_content = apache.get_docker_compose_content()
+                file = open('{}/docker-compose.yml'.format(self.path), 'a')
+                for text in docker_compose_content:
+                    file.write(text + '\n')
+                config_content = apache.get_config_content()
+                file = open('{}/.docker/config/demoapache.conf'.format(self.path), 'w')
+                for text in config_content:
+                    file.write(text + '\n')
             if container == 'redis':
                 redis = Redis(prefix)
                 redis.write_to_dockerfile(self.path)

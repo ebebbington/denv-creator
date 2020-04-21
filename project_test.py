@@ -13,6 +13,7 @@ from containers.python import Python
 from containers.sql import Sql
 from containers.mongo import Mongo
 from containers.mongoseeder import MongoSeeder
+from containers.apache import Apache
 os.environ['ENV'] = 'testing'
 
 class ProjectTest(unittest.TestCase):
@@ -312,6 +313,49 @@ class ProjectTest(unittest.TestCase):
             file_contents.append(x)
         self.assertEqual(new_docker_compose_content, file_contents)
         self.assertTrue(os.path.exists('./my-project/.docker/data/mongo-data-dump'))
+        shutil.rmtree('./my-project')
+
+        # apache
+        apache = Apache('my_project')
+        project.containers = ["apache"]
+        os.mkdir('my-project')
+        os.mkdir('./my-project/.docker')
+        os.mkdir('./my-project/.docker/config')
+        project.create_containers_from_container_list()
+        # start of asserting dockerfile content
+        dockerfile_content = apache.get_dockerfile_content()
+        # add nl char to list to match what is read in file
+        new_dockerfile_content = []
+        for x in dockerfile_content:
+            new_dockerfile_content.append(x + '\n')
+        file_contents = []
+        f = open('./my-project/.docker/apache.dockerfile', 'r')
+        for x in f:
+          file_contents.append(x)
+        self.assertEqual(new_dockerfile_content, file_contents)
+        f.close()
+        # start of asserting docker compose content
+        docker_compose_content = apache.get_docker_compose_content()
+        new_docker_compose_content = []
+        for x in docker_compose_content:
+            new_docker_compose_content.append(x + '\n')
+        file_contents = []
+        f = open('./my-project/docker-compose.yml', 'r')
+        for x in f:
+          file_contents.append(x)
+        self.assertEqual(new_docker_compose_content, file_contents)
+        f.close()
+        # start of asserting config file content
+        config_content = apache.get_config_content()
+        new_config_content = []
+        for x in config_content:
+            new_config_content.append(x + '\n')
+        file_contents = []
+        f = open('./my-project/.docker/config/demoapache.conf', 'r')
+        for x in f:
+          file_contents.append(x)
+        self.assertEqual(new_config_content, file_contents)
+        f.close()
         shutil.rmtree('./my-project')
 
 #     def test_init_docker_compose_file(self):
