@@ -63,12 +63,12 @@ class Apache:
         """
 
         dockerfile_content: List[str] = [
-            'FROM httpd:2.4.33-alpine',
-            'RUN apk update; \\',
-            '  && apk upgrade;',
-            'COPY apache.conf /usr/local/apache2/conf/demo.apache.conf',
-            'RUN echo "Include /usr/local/apache2/conf/apache.conf" \\',
-            '  >> /usr/local/apache2/conf/httpd.conf',
+            'FROM httpd:2.4',
+            '',
+            'RUN apt update -y',
+            'COPY .docker/conf/apache.conf /usr/local/apache2/conf/demoapache.conf',
+            'RUN echo "\nInclude /usr/local/apache2/conf/demoapache.conf" >> /usr/local/apache2/conf/httpd.conf',
+            'RUN cat /usr/local/apache2/conf/httpd.conf',
         ]
         file = open('{}/.docker/{}'.format(root_path, self.dockerfile_name), 'w')
         for text in dockerfile_content:
@@ -107,26 +107,14 @@ class Apache:
         """
 
         config_content: List[str] = [
-            'ServerName localhost',
-            '',
-            'LoadModule deflate_module /usr/local/apache2/modules/mod_deflate.so',
             'LoadModule proxy_module /usr/local/apache2/modules/mod_proxy.so',
-            'LoadModule proxy_fcgi_module /usr/local/apache2/modules/mod_proxy_fcgi.so',
-
-            '<VirtualHost *:{}>'.format(self.port),
-            '  #ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://php:9000/var/www/html/$1',
-            '  DocumentRoot /var/www/asrc/',
-            '  <Directory /var/www/src/>',
-            '    #DirectoryIndex index.php',
-            '    Options Indexes FollowSymLinks',
-            '    AllowOverride All',
-            '    Require all granted',
-            '  </Directory>',
-            '  CustomLog /proc/self/fd/1 common',
-            '  ErrorLog /proc/self/fd/2',
+            'LoadModule proxy_http_module modules/mod_proxy_http.so',
+            '',
+            '<VirtualHost *:80>',
+            '  ProxyPass / http://your_container_name:port/',
             '</VirtualHost>'
         ]
-        file = open('{}/.docker/config/apache.conf'.format(root_path), 'w')
+        file = open('{}/.docker/config/demoapache.conf'.format(root_path), 'w')
         for text in config_content:
             file.write(text + '\n')
 
