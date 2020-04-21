@@ -147,8 +147,14 @@ class Project:
                     file.write(text + '\n')
             if container == 'python':
                 python = Python(prefix)
-                python.write_to_dockerfile(self.path)
-                python.write_to_docker_compose_file(self.path)
+                dockerfile_content = python.get_dockerfile_content()
+                file = open('{}/.docker/{}'.format(self.path, python.dockerfile_name), 'w')
+                for text in dockerfile_content:
+                    file.write(text + '\n')
+                docker_compose_content = python.get_docker_compose_content()
+                file = open('{}/docker-compose.yml'.format(self.path), 'a')
+                for text in docker_compose_content:
+                    file.write(text + '\n')
             if container == 'sql':
                 sql = Sql(prefix)
                 sql.write_to_dockerfile(self.path)

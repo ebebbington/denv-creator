@@ -9,6 +9,7 @@ import shutil
 from containers.nginx import Nginx
 from containers.phpfpm import Phpfpm
 from containers.node import Node
+from containers.python import Python
 os.environ['ENV'] = 'testing'
 
 class ProjectTest(unittest.TestCase):
@@ -174,8 +175,37 @@ class ProjectTest(unittest.TestCase):
         f = open('./my-project/docker-compose.yml', 'r')
         for x in f:
             file_contents.append(x)
-        print(file_contents)
-        print(new_dockerfile_content)
+        self.assertEqual(new_docker_compose_content, file_contents)
+        f.close()
+        shutil.rmtree('./my-project')
+
+        # python
+        python = Python('my_project')
+        project.containers = ["python"]
+        os.mkdir('my-project')
+        os.mkdir('./my-project/.docker')
+        os.mkdir('./my-project/.docker/config')
+        project.create_containers_from_container_list()
+        # start of dockerfile content
+        dockerfile_content = python.get_dockerfile_content()
+        new_dockerfile_content = []
+        for x in dockerfile_content:
+            new_dockerfile_content.append(x + '\n')
+        file_contents = []
+        f = open('./my-project/.docker/python.dockerfile', 'r')
+        for x in f:
+          file_contents.append(x)
+        self.assertEqual(new_dockerfile_content, file_contents)
+        f.close()
+        # start of docker compose content
+        docker_compose_content = python.get_docker_compose_content()
+        new_docker_compose_content = []
+        for x in docker_compose_content:
+            new_docker_compose_content.append(x + '\n')
+        file_contents = []
+        f = open('./my-project/docker-compose.yml', 'r')
+        for x in f:
+            file_contents.append(x)
         self.assertEqual(new_docker_compose_content, file_contents)
         f.close()
         shutil.rmtree('./my-project')
