@@ -165,9 +165,9 @@ class Project:
         # TODO :: Issue #15 write this text to the docker-compose.yml file. make sure to append it and use the 'self.path' for the directory
         Response.show_error('init_docker_compose_file NOT IMPLEMENTED')
     
-    def clean_up():
-        import shutil
-        shutil.rmtree(os.getcwd() + '/docker-environment-creator')
+#     def clean_up():
+#         import shutil
+#         shutil.rmtree(os.getcwd() + '/docker-environment-creator')
         Response.show_info('Cleaned.')
 
     # Create the base folders and files and not any dockerfiles or configs
