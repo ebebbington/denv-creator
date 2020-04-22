@@ -47,28 +47,28 @@ class ProjectTest(unittest.TestCase):
         except:
             self.assertRaises(SystemExit)
 
-#     @patch('builtins.input', lambda *args: 'my-project')
-#     def test_get_prefix_for_containers(self):
-#         project = Project()
-#         project.get_prefix_for_containers()
-#         self.assertEqual(project.container_prefix, 'my-project')
+    @patch('builtins.input', lambda *args: 'my-project')
+    def test_get_prefix_for_containers(self):
+        project = Project()
+        project.get_prefix_for_containers()
+        self.assertEqual(project.container_prefix, 'my-project')
 
-#     def test_add_network_block_to_compose_file(self):
-#         project = Project()
-#         # mock the property needed in this method
-#         project.container_prefix = "hello"
-#         project.add_network_block_to_compose_file()
-#         # TODO :: Once implemented then assert this content is inside the file
-#         text_block: List[str] = [
-#             'network:',
-#             '  {}-network:'.format(self.container_prefix),
-#             '    driver: bridge'
-#         ]
-#
-#     def test_init_git_repo(self):
-#         project = Project()
-#         project.init_git_repo()
-#         # TODO :: Assert the project is using git (check for .git folder?)
+    def test_add_network_block_to_compose_file(self):
+        project = Project()
+        # mock the property needed in this method
+        project.container_prefix = "hello"
+        project.add_network_block_to_compose_file()
+        # TODO :: Once implemented then assert this content is inside the file
+        text_block: List[str] = [
+            'network:',
+            '  {}-network:'.format(self.container_prefix),
+            '    driver: bridge'
+        ]
+
+    def test_init_git_repo(self):
+        project = Project()
+        project.init_git_repo()
+        # TODO :: Assert the project is using git (check for .git folder?)
 
     def test_create_containers_from_container_list(self):
         # setup
@@ -423,14 +423,14 @@ class ProjectTest(unittest.TestCase):
         shutil.rmtree('./my-project')
 
 
-#     def test_init_docker_compose_file(self):
-#         project = Project()
-#         # TODO :: assert the below is inside the file when the method is implemented
-#         text: List[str] = [
-#             'version: "3"',
-#             '  services:'
-#         ]
-#         project.init_docker_compose_file()
+    def test_init_docker_compose_file(self):
+        project = Project()
+        # TODO :: assert the below is inside the file when the method is implemented
+        text: List[str] = [
+            'version: "3"',
+            '  services:'
+        ]
+        project.init_docker_compose_file()
 
     def test_create_base_files(self):
         project = Project()
