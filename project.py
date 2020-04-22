@@ -9,6 +9,7 @@ from containers.sql import Sql
 from containers.mongo import Mongo
 from containers.mongoseeder import MongoSeeder
 from containers.apache import Apache
+from containers.deno import Deno
 from containers.redis import Redis
 
 class Project:
@@ -201,6 +202,16 @@ class Project:
                 config_content = apache.get_config_content()
                 file = open('{}/.docker/config/demoapache.conf'.format(self.path), 'w')
                 for text in config_content:
+                    file.write(text + '\n')
+            if container == 'deno':
+                deno = Deno(prefix)
+                dockerfile_content = deno.get_dockerfile_content()
+                file = open('{}/.docker/{}'.format(self.path, deno.dockerfile_name), 'w')
+                for text in dockerfile_content:
+                    file.write(text + '\n')
+                docker_compose_content = deno.get_docker_compose_content()
+                file = open('{}/docker-compose.yml'.format(self.path), 'a')
+                for text in docker_compose_content:
                     file.write(text + '\n')
             if container == 'redis':
                 redis = Redis(prefix)
