@@ -14,6 +14,8 @@ from containers.sql import Sql
 from containers.mongo import Mongo
 from containers.mongoseeder import MongoSeeder
 from containers.apache import Apache
+from containers.deno import Deno
+from containers.redis import Redis
 os.environ['ENV'] = 'testing'
 
 class ProjectTest(unittest.TestCase):
@@ -358,9 +360,72 @@ class ProjectTest(unittest.TestCase):
         f.close()
         shutil.rmtree('./my-project')
 
+        # deno
+        deno = Deno('my_project')
+        project.containers = ["deno"]
+        os.mkdir('my-project')
+        os.mkdir('./my-project/.docker')
+        os.mkdir('./my-project/.docker/config')
+        project.create_containers_from_container_list()
+        # start of dockerfile content
+        dockerfile_content = deno.get_dockerfile_content()
+        new_dockerfile_content = []
+        for x in dockerfile_content:
+            new_dockerfile_content.append(x + '\n')
+        file_contents = []
+        f = open('./my-project/.docker/deno.dockerfile', 'r')
+        for x in f:
+          file_contents.append(x)
+        self.assertEqual(new_dockerfile_content, file_contents)
+        f.close()
+        # start of docker compose content
+        docker_compose_content = deno.get_docker_compose_content()
+        new_docker_compose_content = []
+        for x in docker_compose_content:
+            new_docker_compose_content.append(x + '\n')
+        file_contents = []
+        f = open('./my-project/docker-compose.yml', 'r')
+        for x in f:
+            file_contents.append(x)
+        self.assertEqual(new_docker_compose_content, file_contents)
+        f.close()
+        shutil.rmtree('./my-project')
+
+        # redis
+        redis = Redis('my_project')
+        project.containers = ["redis"]
+        os.mkdir('my-project')
+        os.mkdir('./my-project/.docker')
+        os.mkdir('./my-project/.docker/config')
+        project.create_containers_from_container_list()
+        # start of dockerfile content
+        dockerfile_content = redis.get_dockerfile_content()
+        new_dockerfile_content = []
+        for x in dockerfile_content:
+            new_dockerfile_content.append(x + '\n')
+        file_contents = []
+        f = open('./my-project/.docker/redis.dockerfile', 'r')
+        for x in f:
+          file_contents.append(x)
+        self.assertEqual(new_dockerfile_content, file_contents)
+        f.close()
+        # start of docker compose content
+        docker_compose_content = redis.get_docker_compose_content()
+        new_docker_compose_content = []
+        for x in docker_compose_content:
+            new_docker_compose_content.append(x + '\n')
+        file_contents = []
+        f = open('./my-project/docker-compose.yml', 'r')
+        for x in f:
+            file_contents.append(x)
+        self.assertEqual(new_docker_compose_content, file_contents)
+        f.close()
+        shutil.rmtree('./my-project')
+
+
 #     def test_init_docker_compose_file(self):
 #         project = Project()
-#         # TODO :: assert the below is inside the file when the mehthod is implemented
+#         # TODO :: assert the below is inside the file when the method is implemented
 #         text: List[str] = [
 #             'version: "3"',
 #             '  services:'

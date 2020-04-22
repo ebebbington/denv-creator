@@ -215,8 +215,14 @@ class Project:
                     file.write(text + '\n')
             if container == 'redis':
                 redis = Redis(prefix)
-                redis.write_to_dockerfile(self.path)
-                redis.write_to_docker_compose_file(self.path)
+                dockerfile_content = redis.get_dockerfile_content()
+                file = open('{}/.docker/{}'.format(self.path, redis.dockerfile_name), 'w')
+                for text in dockerfile_content:
+                    file.write(text + '\n')
+                docker_compose_content = redis.get_docker_compose_content()
+                file = open('{}/docker-compose.yml'.format(self.path), 'a')
+                for text in docker_compose_content:
+                    file.write(text + '\n')
         Response.show_info('Created containers')
 
     def init_docker_compose_file(self):
