@@ -1,5 +1,7 @@
 # Docker Environment Creator (denv-creator)
 
+[![Build Status](https://travis-ci.com/ebebbington/denv-creator.svg?branch=master)](https://travis-ci.com/ebebbington/copytube)
+
 ***This project is under construction and does not currently function properly. Feel free to use it and test it.***
 
 Automates the process of creating a docker environment (using `docker-compose`) with all the containers you want, also with all of their respective configuration files. This can be done by answering a few questions on the command line.
@@ -34,6 +36,10 @@ Automates the process of creating a docker environment (using `docker-compose`) 
 * Apache
     * If using PHP, comment out the comment inside of the config file
     * Depends on any other services defined
+    
+* Deno
+
+    * Runs on port 1447
 
 * Redis
 
@@ -54,7 +60,7 @@ Automates the process of creating a docker environment (using `docker-compose`) 
 
 **Notes**
 * Remember to adjust certain files, such as the `docker-compose.yml` file to specify what services depend on what
-* Also, if you are seperating source code for each container, remember to modif the related values inside the `docker-compose.yml` file
+* Also, if you are separating source code for each container, remember to modif the related values inside the `docker-compose.yml` file
  
 # File Structure
 
@@ -106,6 +112,26 @@ Automates the process of creating a docker environment (using `docker-compose`) 
 3. The project class is what does the magic. It collects data from the user
 
 4. Eventually when all data is collected, the project class uses the container classes to aid in creating/writing files and directories
+
+# Tests
+
+Unit testing has been setup and tries to cover 100% of the code.
+
+Testing was also achieved by installing `pytest` and `coverage`:
+
+```shell
+pip install pytest coverage
+```
+
+## Writing the Tests
+
+There is a test file for each other file, that mimics the file and tests each method.
+
+## Running the tests
+
+`pytest`
+
+**With code coverage:** `coverage run --source . -m pytest && coverage html --omit="*_test.py"`
 
 # Built With
 

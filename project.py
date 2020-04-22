@@ -9,6 +9,7 @@ from containers.sql import Sql
 from containers.mongo import Mongo
 from containers.mongoseeder import MongoSeeder
 from containers.apache import Apache
+from containers.deno import Deno
 from containers.redis import Redis
 
 class Project:
@@ -112,46 +113,116 @@ class Project:
                 depends_on_string = self._construct_depends_on_list(container)
                 nginx = Nginx(prefix)
                 nginx.update_services_to_depend_on(depends_on_string)
-                nginx.write_to_dockerfile(self.path)
-                nginx.write_to_docker_compose_file(self.path)
-                nginx.write_to_config_file(self.path)
+                dockerfile_content = nginx.get_dockerfile_content()
+                file = open('{}/.docker/{}'.format(self.path, nginx.dockerfile_name), 'w')
+                for text in dockerfile_content:
+                    file.write(text + '\n')
+                docker_compose_content = nginx.get_docker_compose_content()
+                file = open('{}/docker-compose.yml'.format(self.path), 'a')
+                for text in docker_compose_content:
+                    file.write(text + '\n')
+                config_content = nginx.get_config_file_content()
+                file = open('{}/.docker/config/nginx.conf'.format(self.path), 'w')
+                for text in config_content:
+                    file.write(text + '\n')
             if container == 'phpfpm':
                 phpfpm = Phpfpm(prefix)
-                phpfpm.write_to_dockerfile(self.path)
-                phpfpm.write_to_docker_compose_file(self.path)
+                dockerfile_content = phpfpm.get_dockerfile_content()
+                file = open('{}/./.docker/{}'.format(self.path, phpfpm.dockerfile_name), 'w')
+                for text in dockerfile_content:
+                    file.write(text + '\n')
+                docker_compose_content = phpfpm.get_docker_compose_content()
+                file = open('{}/./docker-compose.yml'.format(self.path), 'a')
+                for text in docker_compose_content:
+                    file.write(text + '\n')
                 phpfpm.create_php_ini_file(self.path)
             if container == 'node':
                 node = Node(prefix)
-                node.write_to_dockerfile(self.path)
-                node.write_to_docker_compose_file(self.path)
+                dockerfile_content = node.get_dockerfile_content()
+                file = open('{}/.docker/{}'.format(self.path, node.dockerfile_name), 'w')
+                for text in dockerfile_content:
+                    file.write(text + '\n')
+                docker_compose_content = node.get_docker_compose_content()
+                file = open('{}/docker-compose.yml'.format(self.path), 'a')
+                for text in docker_compose_content:
+                    file.write(text + '\n')
             if container == 'python':
                 python = Python(prefix)
-                python.write_to_dockerfile(self.path)
-                python.write_to_docker_compose_file(self.path)
+                dockerfile_content = python.get_dockerfile_content()
+                file = open('{}/.docker/{}'.format(self.path, python.dockerfile_name), 'w')
+                for text in dockerfile_content:
+                    file.write(text + '\n')
+                docker_compose_content = python.get_docker_compose_content()
+                file = open('{}/docker-compose.yml'.format(self.path), 'a')
+                for text in docker_compose_content:
+                    file.write(text + '\n')
             if container == 'sql':
                 sql = Sql(prefix)
-                sql.write_to_dockerfile(self.path)
-                sql.write_to_docker_compose_file(self.path)
+                dockerfile_content = sql.get_dockerfile_content()
+                file = open('{}/.docker/{}'.format(self.path, sql.dockerfile_name), 'w')
+                for text in dockerfile_content:
+                    file.write(text + '\n')
+                docker_compose_content = sql.get_docker_compose_content()
+                file = open('{}/docker-compose.yml'.format(self.path), 'a')
+                for text in docker_compose_content:
+                    file.write(text + '\n')
                 sql.create_dump_file(self.path)
                 sql.create_env_file(self.path)
             if container == 'mongo':
                 mongo = Mongo(prefix)
-                mongo.write_to_docker_compose_file(self.path)
-                mongo.create_env_file(self.path)
+                docker_compose_content = mongo.get_docker_compose_content()
+                file = open('{}/docker-compose.yml'.format(self.path), 'a')
+                for text in docker_compose_content:
+                    file.write(text + '\n')
+                env_content = mongo.get_env_content()
+                file = open('{}/.docker/env/mongo.env'.format(self.path), 'a')
+                for text in env_content:
+                    file.write(text + '\n')
             if container == 'mongoseeder':
                 mongo_seeder = MongoSeeder(prefix)
-                mongo_seeder.write_to_dockerfile(self.path)
-                mongo_seeder.write_to_docker_compose_file(self.path)
+                dockerfile_content = mongo_seeder.get_dockerfile_content()
+                file = open('{}/.docker/{}'.format(self.path, mongo_seeder.dockerfile_name), 'w')
+                for text in dockerfile_content:
+                    file.write(text + '\n')
+                docker_compose_content = mongo_seeder.get_docker_compose_content()
+                file = open('{}/docker-compose.yml'.format(self.path), 'a')
+                for text in docker_compose_content:
+                    file.write(text + '\n')
                 mongo_seeder.create_dump_dir(self.path)
             if container == 'apache':
                 apache = Apache(prefix)
-                apache.write_to_dockerfile(self.path)
-                apache.write_to_docker_compose_file(self.path)
-                apache.write_to_config_file(self.path)
+                dockerfile_content = apache.get_dockerfile_content()
+                file = open('{}/.docker/{}'.format(self.path, apache.dockerfile_name), 'w')
+                for text in dockerfile_content:
+                    file.write(text + '\n')
+                docker_compose_content = apache.get_docker_compose_content()
+                file = open('{}/docker-compose.yml'.format(self.path), 'a')
+                for text in docker_compose_content:
+                    file.write(text + '\n')
+                config_content = apache.get_config_content()
+                file = open('{}/.docker/config/demoapache.conf'.format(self.path), 'w')
+                for text in config_content:
+                    file.write(text + '\n')
+            if container == 'deno':
+                deno = Deno(prefix)
+                dockerfile_content = deno.get_dockerfile_content()
+                file = open('{}/.docker/{}'.format(self.path, deno.dockerfile_name), 'w')
+                for text in dockerfile_content:
+                    file.write(text + '\n')
+                docker_compose_content = deno.get_docker_compose_content()
+                file = open('{}/docker-compose.yml'.format(self.path), 'a')
+                for text in docker_compose_content:
+                    file.write(text + '\n')
             if container == 'redis':
                 redis = Redis(prefix)
-                redis.write_to_dockerfile(self.path)
-                redis.write_to_docker_compose_file(self.path)
+                dockerfile_content = redis.get_dockerfile_content()
+                file = open('{}/.docker/{}'.format(self.path, redis.dockerfile_name), 'w')
+                for text in dockerfile_content:
+                    file.write(text + '\n')
+                docker_compose_content = redis.get_docker_compose_content()
+                file = open('{}/docker-compose.yml'.format(self.path), 'a')
+                for text in docker_compose_content:
+                    file.write(text + '\n')
         Response.show_info('Created containers')
 
     def init_docker_compose_file(self):
@@ -165,9 +236,9 @@ class Project:
         # TODO :: Issue #15 write this text to the docker-compose.yml file. make sure to append it and use the 'self.path' for the directory
         Response.show_error('init_docker_compose_file NOT IMPLEMENTED')
     
-    def clean_up():
-        import shutil
-        shutil.rmtree(os.getcwd() + '/docker-environment-creator')
+#     def clean_up():
+#         import shutil
+#         shutil.rmtree(os.getcwd() + '/docker-environment-creator')
         Response.show_info('Cleaned.')
 
     # Create the base folders and files and not any dockerfiles or configs

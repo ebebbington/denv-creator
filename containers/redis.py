@@ -28,14 +28,12 @@ class Redis:
 
     Methods
     -------
-    write_to_dockerfile()
-        Writes the neccessary content to the dockerfile for redis
+    get_dockerfile_content()
+        Returns the necessary content to the dockerfile for redis
 
-    write_to_docker_compose_file()
-        Appends to the docker compose file with the neccessary redis content
+    get_docker_compose_content()
+        Returns to the docker compose file with the neccessary redis content
 
-    write_to_config_file()
-        Writes the neccessary content to the config file with php-fpm support
     """
 
     def __init__(self, prefix_for_containers: str):
@@ -56,9 +54,9 @@ class Redis:
         self.port: int = config.ports['redis']
         self.dockerfile_name: str = 'redis.dockerfile'
 
-    def write_to_dockerfile(self, root_path: str):
+    def get_dockerfile_content(self):
         """
-        Writes the neccessary content to the dockerfile for redis
+        Returns the necessary content to the dockerfile for redis
 
         """
 
@@ -66,13 +64,11 @@ class Redis:
             'FROM redis:5',
             'RUN apt update'
         ]
-        file = open('{}/.docker/{}'.format(root_path, self.dockerfile_name), 'w')
-        for text in dockerfile_content:
-            file.write(text + '\n')
+        return dockerfile_content
 
-    def write_to_docker_compose_file(self, root_path: str):
+    def get_docker_compose_content(self):
         """
-        Writes the neccessary content to the docker-compose.yml file for redis
+        Returns the necessary content to the docker-compose.yml file for redis
 
         """
 
@@ -87,6 +83,4 @@ class Redis:
             "    networks:",
             "      - {}-network".format(self.prefix)
         ]
-        file = open('{}/docker-compose.yml'.format(root_path), 'a')
-        for text in docker_compose_content:
-            file.write(text + '\n')
+        return docker_compose_content

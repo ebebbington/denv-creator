@@ -26,11 +26,11 @@ class Python:
 
     Methods
     -------
-    write_to_dockerfile()
-        Writes the neccessary content to the dockerfile for python
+    get_dockerfile_content()
+        Returns the neccessary content for the dockerfile for python
 
-    write_to_docker_compose_file()
-        Appends to the docker compose file with the neccessary python content
+    get_docker_compose_content()
+        Returns to the docker compose file content with the neccessary python content
     """
 
     def __init__(self, prefix_for_containers: str):
@@ -48,7 +48,7 @@ class Python:
         self.container_name: str = prefix_for_containers + '_python'
         self.dockerfile_name: str = 'python.dockerfile'
 
-    def write_to_dockerfile(self, root_path: str):
+    def get_dockerfile_content(self):
         """
         Writes the neccessary content to the dockerfile for python
 
@@ -69,13 +69,11 @@ class Python:
             '    && pip install Flask \\',
             '    && pip install flask-socketio'
         ]
-        file = open('{}/.docker/{}'.format(root_path, self.dockerfile_name), 'w')
-        for text in dockerfile_content:
-            file.write(text + '\n')
+        return dockerfile_content
 
-    def write_to_docker_compose_file(self, root_path: str):
+    def get_docker_compose_content(self):
         """
-        Writes the neccessary content to the docker-compose.yml file for python
+        Return the neccessary content for the docker-compose.yml file for python
 
         """
 
@@ -92,6 +90,4 @@ class Python:
             "    networks:",
             "      - {}-network".format(self.prefix)
         ]
-        file = open('{}/docker-compose.yml'.format(root_path), 'a')
-        for text in docker_compose_content:
-            file.write(text + '\n')
+        return docker_compose_content

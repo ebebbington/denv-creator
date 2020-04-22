@@ -26,11 +26,11 @@ class Sql:
 
     Methods
     -------
-    write_to_dockerfile(root_path: str)
-        Writes the neccessary content to the dockerfile for sql
+    get_dockerfile_content()
+        Returns the necessary content to the dockerfile for sql
 
-    write_to_docker_compose_file(root_path: str)
-        Appends to the docker compose file with the neccessary sql content
+    get_docker_compose_content()
+        Returns to the docker compose file with the necessary sql content
 
     create_dump_file(root_path: str)
         Creates an empty dump file
@@ -54,9 +54,9 @@ class Sql:
         self.container_name: str = prefix_for_containers + '_sql'
         self.dockerfile_name: str = 'sql.dockerfile'
 
-    def write_to_dockerfile(self, root_path: str):
+    def get_dockerfile_content(self):
         """
-        Writes the neccessary content to the dockerfile for sql
+        Returns the neccessary content to the dockerfile for sql
 
         """
 
@@ -67,16 +67,14 @@ class Sql:
             '',
             'COPY    ./.docker/data/sql-data-dump.sql /docker-entrypoint-initdb.d/'
         ]
-        file = open('{}/.docker/{}'.format(root_path, self.dockerfile_name), 'w')
-        for text in dockerfile_content:
-            file.write(text + '\n')
+        return dockerfile_content
 
     def create_dump_file(self, root_path: str):
         """
        Creates an empty dump file
 
         """
-        open('{}/.docker/data/sql-data-dump.sql'.format(root_path), 'x')
+        open('{}/.docker/data/sql-data-dump.sql'.format(root_path), 'x').close()
 
     def create_env_file(self, root_path: str):
         """
@@ -93,9 +91,9 @@ class Sql:
         for text in content:
             file.write(text + '\n')
 
-    def write_to_docker_compose_file(self, root_path: str):
+    def get_docker_compose_content(self):
         """
-        Writes the neccessary content to the docker-compose.yml file for sql
+        Returns the necessary content to the docker-compose.yml file for sql
 
         """
 
@@ -112,6 +110,4 @@ class Sql:
             "    networks:",
             "      - {}-network".format(self.prefix)
         ]
-        file = open('{}/docker-compose.yml'.format(root_path), 'a')
-        for text in docker_compose_content:
-            file.write(text + '\n')
+        return docker_compose_content

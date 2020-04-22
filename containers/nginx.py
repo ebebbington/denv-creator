@@ -28,14 +28,14 @@ class Nginx:
 
     Methods
     -------
-    write_to_dockerfile()
-        Writes the neccessary content to the dockerfile for nginx
+    get_dockerfile_content()
+        Returns the neccessary content for the dockerfile for nginx
 
-    write_to_docker_compose_file()
-        Appends to the docker compose file with the neccessary nginx content
+    get_docker_compose_content()
+        Returns the docker compose content neccessary necessary for nginx
 
     write_to_config_file()
-        Writes the neccessary content to the config file with php-fpm support
+        returns the neccessary content for the config file with php-fpm support
     """
 
     def __init__(self, prefix_for_containers: str):
@@ -56,9 +56,9 @@ class Nginx:
         self.port: int = config.ports['nginx']
         self.dockerfile_name: str = 'nginx.dockerfile'
 
-    def write_to_dockerfile(self, root_path: str):
+    def get_dockerfile_content(self):
         """
-        Writes the neccessary content to the dockerfile for nginx
+        Holds the neccessary content for the dockerfile for nginx
 
         """
 
@@ -73,13 +73,11 @@ class Nginx:
             'ENTRYPOINT ["nginx"]',
             'CMD ["-g","daemon off;"]'
         ]
-        file = open('{}/.docker/{}'.format(root_path, self.dockerfile_name), 'w')
-        for text in dockerfile_content:
-            file.write(text + '\n')
+        return dockerfile_content
 
-    def write_to_docker_compose_file(self, root_path: str):
+    def get_docker_compose_content(self):
         """
-        Writes the neccessary content to the docker-compose.yml file for nginx
+        Holds the neccessary content for the docker-compose.yml file for nginx
 
         """
 
@@ -99,13 +97,11 @@ class Nginx:
         ]
         if self.depends_on_string != '':
             docker_compose_content.insert(2, self.depends_on_string)
-        file = open('{}/docker-compose.yml'.format(root_path), 'a')
-        for text in docker_compose_content:
-            file.write(text + '\n')
+        return docker_compose_content
 
-    def write_to_config_file(self, root_path: str):
+    def get_config_file_content(self):
         """
-        Writes the neccessary content to the config file for nginx with php-fpm support commented out
+        Holds the neccessary content for the config file for nginx with php-fpm support commented out
     
         """
 
@@ -132,9 +128,7 @@ class Nginx:
 	        '  }',
             '}'
         ]
-        file = open('{}/.docker/config/nginx.conf'.format(root_path), 'w')
-        for text in config_content:
-            file.write(text + '\n')
+        return config_content
 
     def update_services_to_depend_on(self, depends_on_string: str):
         self.depends_on_string = depends_on_string
