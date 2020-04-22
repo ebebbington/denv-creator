@@ -45,7 +45,7 @@ Automates the process of creating a docker environment (using `docker-compose`) 
 
 # Requirements
 
-* Python
+* Python 3.7 or higher
 
 # Install and Run
 
