@@ -13,4 +13,5 @@ Guide on how to contribute.
 4. Do the work to fulfill the issue and commit (any number of commits are fine)
 
 5. Push to your fork
-`git push origin <your branch name>
+
+`git push origin <your branch name>`
