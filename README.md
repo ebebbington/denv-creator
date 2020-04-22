@@ -36,6 +36,10 @@ Automates the process of creating a docker environment (using `docker-compose`) 
 * Apache
     * If using PHP, comment out the comment inside of the config file
     * Depends on any other services defined
+    
+* Deno
+
+    * Runs on port 1447
 
 * Redis
 
@@ -56,7 +60,7 @@ Automates the process of creating a docker environment (using `docker-compose`) 
 
 **Notes**
 * Remember to adjust certain files, such as the `docker-compose.yml` file to specify what services depend on what
-* Also, if you are seperating source code for each container, remember to modif the related values inside the `docker-compose.yml` file
+* Also, if you are separating source code for each container, remember to modif the related values inside the `docker-compose.yml` file
  
 # File Structure
 
@@ -127,7 +131,7 @@ There is a test file for each other file, that mimics the file and tests each me
 
 `pytest`
 
-**With code coverage:** `coverage run--source . -m pytest && coverage html --omit="*_test.py"`
+**With code coverage:** `coverage run --source . -m pytest && coverage html --omit="*_test.py"`
 
 # Built With
 
