@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.com/ebebbington/denv-creator.svg?branch=master)](https://travis-ci.com/ebebbington/copytube)
 [![PyPI version](https://badge.fury.io/py/denv-creator.svg)](https://badge.fury.io/py/denv-creator)
 [![Github All Releases](https://img.shields.io/github/downloads/ebebbington/denv-creator/total.svg)]()
+[![HitCount](http://hits.dwyl.com/ebebbington/denv-creator.svg)](http://hits.dwyl.com/ebebbington/denv-creator)
 
 ***This project is under construction and does not currently function properly. Feel free to use it and test it.***
 
