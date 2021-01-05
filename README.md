@@ -15,7 +15,7 @@
   <a href="http://hits.dwyl.com/ebebbington/denv-creator">
     <img src="http://hits.dwyl.com/ebebbington/denv-creator.svg">
   </a>
-  <a href="https://github.com/drashland/denv-creator/actions">
+  <a href="https://github.com/ebebbington/denv-creator/actions">
     <img src="https://img.shields.io/github/workflow/status/ebebbington/denv-creator/CodeQL?label=CodeQL">
   </a>
   <a href="https://sonarcloud.io/dashboard?id=ebebbington_denv-creator">
