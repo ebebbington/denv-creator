@@ -1,7 +1,7 @@
 <p align="center">
   <h1 align="center">Docker Environment Creator</h1>
 </p>
-<p align="center">A REST microframework for <a href="https://github.com/denoland/deno">Deno</a>'s HTTP server with zero dependencies.</p>
+<p align="center">Create a folder structure for your docker enviroment based on containers you wish to use</p>
 <p align="center">
   <a href="https://travis-ci.com/ebebbington/denv-creator">
     <img src="https://travis-ci.com/ebebbington/denv-creator.svg?branch=master">
